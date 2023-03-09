@@ -26,9 +26,9 @@ public class Product {
 	@Nullable
 	private String refProduct;
 	private long inventory;
-	private Date entry;
-	private Date exit;
 	private String owner;
+	private Date entryDate;
+	private Date exitDate;
 	private int inStock;
 	private int outOfStock;
 
