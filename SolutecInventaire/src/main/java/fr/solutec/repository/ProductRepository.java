@@ -1,6 +1,7 @@
 package fr.solutec.repository;
 
 import java.sql.Date;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,5 +20,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	public Iterable<Product> findByEntryDate(Date entryDate);
 	
 	public Iterable<Product> findByExitDate(Date exitDate);
+	
+	@Query("SELECT p FROM Product p WHERE owner = null")
+	public Set<Product> findStock();
 
 }

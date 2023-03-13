@@ -1,16 +1,14 @@
 package fr.solutec.entities;
 
-
-
-
-
 import java.sql.Date;
+import java.util.Set;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +23,10 @@ public class Product {
 	@Column(unique=true)
 	@Nullable
 	private String refProduct;
-	private long inventory;
-	private String owner;
-	private Date entryDate;
-	private Date exitDate;
-	private int inStock;
-	private int outOfStock;
+	private String owner; //Responsable du matériel
+	private Date entryDate; //Entrée en stock
+	private Date exitDate; //Sortie de stock
+	@OneToMany(mappedBy = "product")
+	private Set<ProductInventory> inventory;
 
-}
+}	
