@@ -23,5 +23,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	
 	@Query("SELECT p FROM Product p WHERE owner = null")
 	public Set<Product> findStock();
+	
+	@Query("SELECT p FROM Product p WHERE owner != null")
+	public Set<Product> findNotStock();
 
 }

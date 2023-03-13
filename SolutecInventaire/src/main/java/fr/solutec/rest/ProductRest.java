@@ -1,6 +1,7 @@
 package fr.solutec.rest;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,19 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Product;
+import fr.solutec.entities.Stock;
 import fr.solutec.repository.ProductRepository;
+import fr.solutec.repository.stockRepository;
 
 @RestController
 @CrossOrigin("*")
 public class ProductRest {
 	@Autowired
 	private ProductRepository productRepo;
+	@Autowired
+	private stockRepository stockRepo;
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel
 	public Iterable<Product> getAll(){
@@ -63,13 +70,43 @@ public class ProductRest {
 		}
 	}
 	
-	@PostMapping("add/database") //API Ajouter un article (dans la BDD)
-	public Boolean addProduct(@RequestBody List<Product> product){
-		for(Product p : product) {
+	@PostMapping("add/database/{idStock}") //API Ajouter un article (dans la BDD/stock) (idStock = 1)
+	public Boolean addProduct(@PathVariable Long idStock, @RequestBody List<Product> products ){
+		Optional<Stock> s = stockRepo.findById(idStock);
+		for(Product p : products) {
 			productRepo.save(p);
+			s.get().getProduct().add(p);
+			stockRepo.save(s.get());
 		}
 		return true;
 		}
+	
+	@PutMapping("backToStock") //API Enlever responsable à des articles pour retour au stock 
+	public Iterable<Product> backToStock(@RequestBody List<Product> products){
+		List<Product> prod = new ArrayList<Product>();
+		Optional <Product> pro;
+		for(Product p : products) {
+			pro = productRepo.findById(p.getIdProduct());
+			pro.get().setEntryDate(p.getEntryDate());
+			pro.get().setOwner(p.getOwner());
+			pro.get().setExitDate(null);
+			prod.add(pro.get());
+		}
+		return productRepo.saveAll(prod);
+	}
+	
+	@PutMapping("removeFromStock") //API pour assigner un article à un responsable avec date de sortie 
+	public Iterable<Product> removeFromStock(@RequestBody List<Product> products){
+		List<Product> prod = new ArrayList<Product>();
+		Optional <Product> pro;
+		for(Product p : products) {
+			pro = productRepo.findById(p.getIdProduct());
+			pro.get().setExitDate(p.getExitDate());
+			pro.get().setOwner(p.getOwner());
+			prod.add(pro.get());
+		}
+		return productRepo.saveAll(prod);
+	}
 	
 	
 }

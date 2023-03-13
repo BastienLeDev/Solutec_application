@@ -22,8 +22,19 @@ public class StockRest {
 	@Autowired
 	private ProductRepository productRepo;
 	
-	@GetMapping("getStock/{idStock}")
-	public Stock getStock(@PathVariable Long idStock){
+	@GetMapping("stock/{idStock}")//API voir le matériel en stock (idstock = 1)
+	public Iterable<Product> getStock(@PathVariable Long idStock){
+		Optional<Stock> s = stockRepo.findById(idStock);
+		return s.get().getProduct();
+	}
+	
+	@GetMapping("notStock") //API voir le matériel pas en stock
+	public Iterable<Product> getNotStock(){
+		return productRepo.findNotStock();
+	}
+	
+	@GetMapping("saveStock/{idStock}")//API MaJ/Sauvegarde du stock en fonction du matérielle qui n'a plus de respo (idstock = 1)
+	public Stock SaveStock(@PathVariable Long idStock){
 		Optional<Stock> s = stockRepo.findById(idStock);
 		Iterable<Product> stock =  productRepo.findStock();
 		s.get().setProduct((java.util.Set<Product>) stock);
