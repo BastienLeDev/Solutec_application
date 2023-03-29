@@ -26,7 +26,6 @@ public class Product {
 	private String owner; //Responsable du matériel
 	private Date entryDate; //Entrée en stock
 	private Date exitDate; //Sortie de stock
-	@OneToMany(mappedBy = "product")
-	private Set<ProductInventory> inventory;
+
 
 }	
