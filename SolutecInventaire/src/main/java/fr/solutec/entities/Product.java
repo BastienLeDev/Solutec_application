@@ -8,6 +8,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class Product {
 	private String owner; //Responsable du matériel
 	private Date entryDate; //Entrée en stock
 	private Date exitDate; //Sortie de stock
+	private boolean reservation;
 
 
 }	

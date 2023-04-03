@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import fr.solutec.entities.Product;
 
+
 public interface ProductRepository extends CrudRepository<Product, Long> {
 	
 	public Iterable<Product> findByNameProduct(String nameProduct);
@@ -32,5 +33,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	
 	@Query("SELECT COUNT(p) FROM Product p WHERE p.nameProduct = ?1")
 	public long findTotalPC(String nameProduct);
+	
+	@Query("SELECT p FROM Product p WHERE reservation = true")
+	public Iterable<Product> findReservation();
 
 }

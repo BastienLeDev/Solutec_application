@@ -39,27 +39,27 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		
 		Stock s = new Stock(null, null);
 		
-		Product p1 = new Product(null, "PC intercontrat", "112.100.400.74",  "Gerti Gosselin",null,Date.valueOf("2023-1-09"));
-		Product p2 = new Product(null, "Badge structure", null, "Otto Yglesia",null,Date.valueOf("2022-09-29"));
-		Product p3 = new Product(null, "Badge intercontrat", null, null,Date.valueOf("2022-01-19"),null);
-		Product p4 = new Product(null, "Badge structure", null,"Wynne Durtnall",null,Date.valueOf("2023-3-09"));
-		Product p5 = new Product(null, "Souris", null,null,Date.valueOf("2021-06-10"),null);
-		Product p6 = new Product(null, "PC intercontrat", "145.100.227.74","Winn Heaphy",null,Date.valueOf("2021-3-09"));
-		Product p7 = new Product(null, "Souris", null,"Aloysia Folds",null,Date.valueOf("2019-12-09"));
-		Product p8 = new Product(null, "Alimentation", null,"Shaina Comfort",null,Date.valueOf("2022-3-04"));
-		Product p9 = new Product(null, "PC intercontrat", "171.206.89.210","Yalonda Brik",null,Date.valueOf("2017-3-20"));
-		Product p10 = new Product(null, "PC intercontrat", "51.141.222.105","Neala Ilyenko",null,Date.valueOf("2020-7-15"));
-		Product p11 = new Product(null, "Poste mission", null, null,Date.valueOf("2022-01-19"),null);
-		Product p12 = new Product(null, "Poste mission", null, "Léo Rick",null,Date.valueOf("2022-01-24"));
-		Product p13 = new Product(null, "Poste mission", null, null,Date.valueOf("2022-01-19"),null);
-		Product p14 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null);
-		Product p15 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null);
-		Product p16 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null);
-		Product p17 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null);
-		Product p18 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null);
-		Product p19 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null);
-		Product p20 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null);
-		Product p21 = new Product(null, "Téléphone mission", null, "Léo Rick",null,Date.valueOf("2022-01-24"));
+		Product p1 = new Product(null, "PC intercontrat", "112.100.400.74",  "Gerti Gosselin",null,Date.valueOf("2023-1-09"),false);
+		Product p2 = new Product(null, "Badge structure", null, "Otto Yglesia",null,Date.valueOf("2022-09-29"),false);
+		Product p3 = new Product(null, "Badge intercontrat", null, null,Date.valueOf("2022-01-19"),null,false);
+		Product p4 = new Product(null, "Badge structure", null,"Wynne Durtnall",null,Date.valueOf("2023-3-09"),false);
+		Product p5 = new Product(null, "Souris", null,null,Date.valueOf("2021-06-10"),null,true);
+		Product p6 = new Product(null, "PC intercontrat", "145.100.227.74","Winn Heaphy",null,Date.valueOf("2021-3-09"),false);
+		Product p7 = new Product(null, "Souris", null,"Aloysia Folds",null,Date.valueOf("2019-12-09"),false);
+		Product p8 = new Product(null, "Alimentation", null,"Shaina Comfort",null,Date.valueOf("2022-3-04"),false);
+		Product p9 = new Product(null, "PC intercontrat", "171.206.89.210","Yalonda Brik",null,Date.valueOf("2017-3-20"),false);
+		Product p10 = new Product(null, "PC intercontrat", "51.141.222.105","Neala Ilyenko",null,Date.valueOf("2020-7-15"),false);
+		Product p11 = new Product(null, "Poste mission", null, null,Date.valueOf("2022-01-19"),null,false);
+		Product p12 = new Product(null, "Poste mission", null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
+		Product p13 = new Product(null, "Poste mission", null, null,Date.valueOf("2022-01-19"),null,false);
+		Product p14 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null,false);
+		Product p15 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null,false);
+		Product p16 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null,true);
+		Product p17 = new Product(null, "Base", null, null,Date.valueOf("2022-02-26"),null,true);
+		Product p18 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null,true);
+		Product p19 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null,false);
+		Product p20 = new Product(null, "Poste structure", null, null,Date.valueOf("2022-03-15"),null,false);
+		Product p21 = new Product(null, "Téléphone mission", null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
 		
 		
 		
