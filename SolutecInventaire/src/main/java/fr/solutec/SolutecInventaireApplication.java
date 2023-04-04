@@ -12,10 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 import fr.solutec.entities.Product;
-import fr.solutec.entities.Stock;
 import fr.solutec.entities.User;
 import fr.solutec.repository.ProductRepository;
-import fr.solutec.repository.StockRepository;
 import fr.solutec.repository.UserRepository;
 
 @SpringBootApplication
@@ -24,8 +22,7 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 	private ProductRepository productRepo;
 	@Autowired
 	private UserRepository userRepo;
-	@Autowired
-	private StockRepository stockRepo;
+
 
 	
 	public static void main(String[] args) {
@@ -37,7 +34,6 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Lancement en cours");
 		
-		Stock s = new Stock(null, null);
 		
 		Product p1 = new Product(null, "PC intercontrat", "112.100.400.74",  "Gerti Gosselin",null,Date.valueOf("2023-1-09"),false);
 		Product p2 = new Product(null, "Badge structure", null, "Otto Yglesia",null,Date.valueOf("2022-09-29"),false);
@@ -62,13 +58,9 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		Product p21 = new Product(null, "Téléphone mission", null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
 		
 		
-		
-		
 		User u1 = new User(null, "User1", "testUser", "Rm1", "123");
 		User u2 = new User(null, "User2", "testUser2", "Rm2", "456");
 		
-
-		stockRepo.save(s);
 		
 		productRepo.save(p1);
 		productRepo.save(p2);
