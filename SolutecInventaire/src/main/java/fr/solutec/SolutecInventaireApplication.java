@@ -10,9 +10,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+import fr.solutec.entities.Alert;
 import fr.solutec.entities.Product;
 import fr.solutec.entities.User;
+import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.UserRepository;
 
@@ -22,6 +23,7 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 	private ProductRepository productRepo;
 	@Autowired
 	private UserRepository userRepo;
+
 
 
 	
@@ -60,7 +62,6 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		
 		User u1 = new User(null, "User1", "testUser", "Rm1", "123");
 		User u2 = new User(null, "User2", "testUser2", "Rm2", "456");
-		
 		
 		productRepo.save(p1);
 		productRepo.save(p2);

@@ -7,7 +7,7 @@ import fr.solutec.entities.Alert;
 
 public interface AlertRepository extends CrudRepository<Alert, Long> {
 	
-	@Query("SELECT a FROM Alert a WHERE trigger = true")
+	@Query("SELECT a FROM Alert a WHERE triggered = true")
 	public Iterable<Alert> findTrigger();
 
 }
