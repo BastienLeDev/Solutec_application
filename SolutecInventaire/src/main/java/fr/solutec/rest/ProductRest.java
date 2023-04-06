@@ -90,34 +90,6 @@ public class ProductRest {
 	}
 	
 	
-	@PutMapping("backToStock") //API Enlever responsable à des articles pour retour au stock 
-	public Iterable<Product> backToStock(@RequestBody List<Product> products){
-		List<Product> prod = new ArrayList<Product>();
-		Optional <Product> pro;
-		for(Product p : products) {
-			pro = productRepo.findById(p.getIdProduct());
-			pro.get().setEntryDate(p.getEntryDate());
-			pro.get().setOwner(p.getOwner());
-			pro.get().setExitDate(null);
-			prod.add(pro.get());
-		}
-		return productRepo.saveAll(prod);
-	}
-	
-	@PutMapping("removeFromStock") //API pour assigner un article à un responsable avec date de sortie 
-	public Iterable<Product> removeFromStock(@RequestBody List<Product> products){
-		List<Product> prod = new ArrayList<Product>();
-		Optional <Product> pro;
-		for(Product p : products) {
-			pro = productRepo.findById(p.getIdProduct());
-			pro.get().setExitDate(p.getExitDate());
-			pro.get().setOwner(p.getOwner());
-			pro.get().setEntryDate(null);
-			prod.add(pro.get());
-		}
-		return productRepo.saveAll(prod);
-	}
-	
 	@GetMapping("getStockPc") //API pour voir le nombre de PC en stock
 	public String getStockPC(String nameProduct){
 		nameProduct = "PC intercontrat";
