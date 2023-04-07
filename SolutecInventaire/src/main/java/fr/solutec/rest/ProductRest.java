@@ -250,4 +250,15 @@ public class ProductRest {
 		return dispo + " / " + total ;
 	}
 	
+	@GetMapping("getReservation") //API pour voir le nombre de PC en stock
+	public Iterable<Product> getReservation(){
+		return productRepo.findReservation() ;
+	}
+	
+	@GetMapping("removeReservation/{idProduct}") //API pour voir le nombre de PC en stock
+	public Product removeReservation(@PathVariable Long idProduct){
+		Optional<Product> p = productRepo.findById(idProduct);
+		p.get().setReservation(false);
+		return productRepo.save(p.get()) ;
+	}
 }
