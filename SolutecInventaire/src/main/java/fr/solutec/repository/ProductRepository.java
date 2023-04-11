@@ -11,6 +11,7 @@ import fr.solutec.entities.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Long> {
 	
+	@Query("SELECT p FROM Product p WHERE p.typeProduct.nameProduct = ?1")
 	public Iterable<Product> findByNameProduct(String nameProduct);
 	
 	public Iterable<Product> findByRefProduct(String refProduct);
@@ -28,10 +29,10 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	@Query("SELECT p FROM Product p WHERE owner <> null")
 	public Set<Product> findNotStock();
 	
-	@Query("SELECT COUNT(p) FROM Product p WHERE p.owner = null AND p.nameProduct = ?1")
+	@Query("SELECT COUNT(p) FROM Product p WHERE p.owner = null AND p.typeProduct.nameProduct = ?1")
 	public long findStockPC(String nameProduct);
 	
-	@Query("SELECT COUNT(p) FROM Product p WHERE p.nameProduct = ?1")
+	@Query("SELECT COUNT(p) FROM Product p WHERE p.typeProduct.nameProduct = ?1")
 	public long findTotalPC(String nameProduct);
 	
 	@Query("SELECT p FROM Product p WHERE reservation = true")
