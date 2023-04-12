@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Product;
 import fr.solutec.repository.ProductRepository;
+import fr.solutec.repository.TypeProductRepository;
 
 
 @RestController
@@ -25,6 +26,8 @@ import fr.solutec.repository.ProductRepository;
 public class ProductRest {
 	@Autowired
 	private ProductRepository productRepo;
+	@Autowired
+	private TypeProductRepository typeProductRepo;
 	
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel
@@ -80,7 +83,7 @@ public class ProductRest {
 	@PatchMapping("patch/product")
 	public Boolean patchProduct(@RequestBody Product product ) {
 		Product p = productRepo.findById(product.getIdProduct()).get();
-		p.setNameProduct(product.getNameProduct());
+		p.setTypeProduct(typeProductRepo.findByNameProduct(product.getTypeProduct().getNameProduct()).get()) ;
 		p.setRefProduct(product.getRefProduct());
 		p.setOwner(product.getOwner());
 		p.setEntryDate(product.getEntryDate());
