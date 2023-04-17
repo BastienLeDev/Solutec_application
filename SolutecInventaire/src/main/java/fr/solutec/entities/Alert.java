@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 public class Alert {
 	@Id @GeneratedValue
 	private Long idAlert;
-	private String nameAlert;
+	private String Alerte;
 	private List<String> products = new ArrayList<>();
-	private int level;
-	private boolean state;
-	private boolean triggered ;
-	private boolean notifEmail;
+	private int Seuil;
+	private boolean Active;
+	private boolean Triggered ;
+	private boolean Email;
 }

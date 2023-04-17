@@ -1,5 +1,7 @@
 package fr.solutec.rest;
 
+
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Alert;
-import fr.solutec.entities.Product;
 import fr.solutec.repository.AlertRepository;
 
 @CrossOrigin("*")
@@ -33,17 +34,17 @@ public class AlertRest {
 		return alertRepo.findAll();
 	}
 	
-	@PatchMapping("modifyAlert") //API pour modifier une alerte
-	public Alert modifyAlert(@RequestBody Alert alert) {
-		Alert a = alertRepo.findById(alert.getIdAlert()).get();
-		a.setNameAlert(alert.getNameAlert());
-		a.setLevel(alert.getLevel());
-		a.setNotifEmail(alert.isNotifEmail());
-		a.setProducts(alert.getProducts());
-		a.setState(alert.isState());
-		a.setTriggered(alert.isTriggered());
-		alertRepo.save(a);
-		return a;
+	@PatchMapping("modifyAlert/{idAlert}") //API pour modifier une alerte
+	public Alert modifyAlert(@PathVariable Long idAlert, @RequestBody Alert alert) {
+		Optional<Alert> a = alertRepo.findById(idAlert);
+		a.get().setAlerte(alert.getAlerte());
+		a.get().setSeuil(alert.getSeuil());
+		a.get().setEmail(alert.isEmail());
+		a.get().setProducts(alert.getProducts());
+		a.get().setActive(alert.isActive());
+		a.get().setTriggered(alert.isTriggered());
+		alertRepo.save(a.get());
+		return a.get();
 	}
 	
 	@DeleteMapping("deleteAlert/{idAlert}")
