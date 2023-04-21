@@ -91,7 +91,7 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		Product p2 = new Product(null, tp17, null, "Otto Yglesia",null,Date.valueOf("2022-09-29"),false);
 		Product p3 = new Product(null, tp18, null, null,Date.valueOf("2022-01-19"),null,false);
 		Product p4 = new Product(null, tp17, null,"Wynne Durtnall",null,Date.valueOf("2023-3-09"),false);
-		Product p5 = new Product(null, tp13, null,null,Date.valueOf("2021-06-10"),null,true);
+		Product p5 = new Product(null, tp13, null,"Commercial 3",Date.valueOf("2021-06-10"),null,true);
 		Product p6 = new Product(null, tp16, "145.100.227.74","Winn Heaphy",null,Date.valueOf("2021-3-09"),false);
 		Product p7 = new Product(null, tp13, null,"Aloysia Folds",null,Date.valueOf("2019-12-09"),false);
 		Product p8 = new Product(null, tp2, null,"Shaina Comfort",null,Date.valueOf("2022-3-04"),false);
@@ -102,9 +102,9 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		Product p13 = new Product(null, tp1, null, null,Date.valueOf("2022-01-19"),null,false);
 		Product p14 = new Product(null, tp2, null, null,Date.valueOf("2022-02-26"),null,false);
 		Product p15 = new Product(null, tp2, null, null,Date.valueOf("2022-02-26"),null,false);
-		Product p16 = new Product(null, tp2, null, null,Date.valueOf("2022-02-26"),null,true);
-		Product p17 = new Product(null, tp2, null, null,Date.valueOf("2022-02-26"),null,true);
-		Product p18 = new Product(null, tp3, null, null,Date.valueOf("2022-03-15"),null,true);
+		Product p16 = new Product(null, tp2, null,  "Commercial 1",Date.valueOf("2022-02-26"),null,true);
+		Product p17 = new Product(null, tp2, null, "Commercial 2",Date.valueOf("2022-02-26"),null,true);
+		Product p18 = new Product(null, tp3, null, "Commercial 1",Date.valueOf("2022-03-15"),null,true);
 		Product p19 = new Product(null, tp3, null, null,Date.valueOf("2022-03-15"),null,false);
 		Product p20 = new Product(null, tp3, null, null,Date.valueOf("2022-03-15"),null,false);
 		Product p21 = new Product(null, tp4, null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
