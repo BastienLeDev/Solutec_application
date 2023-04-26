@@ -87,16 +87,16 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		
 		
 		
-		Product p1 = new Product(null, tp16, "112.100.400.74",  "Gerti Gosselin",null,Date.valueOf("2023-1-09"),false);
+		Product p1 = new Product(null, tp16, "A0008482",  "Gerti Gosselin",null,Date.valueOf("2023-1-09"),false);
 		Product p2 = new Product(null, tp17, null, "Otto Yglesia",null,Date.valueOf("2022-09-29"),false);
 		Product p3 = new Product(null, tp18, null, null,Date.valueOf("2022-01-19"),null,false);
 		Product p4 = new Product(null, tp17, null,"Wynne Durtnall",null,Date.valueOf("2023-3-09"),false);
 		Product p5 = new Product(null, tp13, null,"Commercial 3",Date.valueOf("2021-06-10"),null,true);
-		Product p6 = new Product(null, tp16, "145.100.227.74","Winn Heaphy",null,Date.valueOf("2021-3-09"),false);
+		Product p6 = new Product(null, tp16, "A0008745","Winn Heaphy",null,Date.valueOf("2021-3-09"),false);
 		Product p7 = new Product(null, tp13, null,"Aloysia Folds",null,Date.valueOf("2019-12-09"),false);
 		Product p8 = new Product(null, tp2, null,"Shaina Comfort",null,Date.valueOf("2022-3-04"),false);
-		Product p9 = new Product(null, tp16, "171.206.89.210","Yalonda Brik",null,Date.valueOf("2017-3-20"),false);
-		Product p10 = new Product(null, tp16, "51.141.222.105","Neala Ilyenko",null,Date.valueOf("2020-7-15"),false);
+		Product p9 = new Product(null, tp16, "A0009456","Yalonda Brik",null,Date.valueOf("2017-3-20"),false);
+		Product p10 = new Product(null, tp16, "A0004562","Neala Ilyenko",null,Date.valueOf("2020-7-15"),false);
 		Product p11 = new Product(null, tp1, null, null,Date.valueOf("2022-01-19"),null,false);
 		Product p12 = new Product(null, tp1, null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
 		Product p13 = new Product(null, tp1, null, null,Date.valueOf("2022-01-19"),null,false);
