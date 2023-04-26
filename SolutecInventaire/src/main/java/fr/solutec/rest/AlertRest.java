@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Alert;
+import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.AlertRepository;
+import fr.solutec.repository.ProductRepository;
+import fr.solutec.repository.TypeProductRepository;
 
 @CrossOrigin("*")
 @RestController
@@ -23,6 +26,11 @@ public class AlertRest {
 	
 	@Autowired
 	private AlertRepository alertRepo;
+	@Autowired
+	private TypeProductRepository typeProductRepo;
+	@Autowired
+	private ProductRepository productRepo;
+
 	
 	@PostMapping("createAlert") //API créer une alerte
 	public Alert createAlert(@RequestBody Alert a) {
@@ -43,8 +51,33 @@ public class AlertRest {
 		a.get().setProducts(alert.getProducts());
 		a.get().setActive(alert.isActive());
 		a.get().setTriggered(alert.isTriggered());
-		alertRepo.save(a.get());
-		return a.get();
+		return alertRepo.save(a.get());
+	}
+	
+	@GetMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
+	public Iterable<Alert> refreshAlert(){
+		Iterable<Alert> listAlert = alertRepo.findAll();
+		for(Alert a : listAlert) {
+			if(a.isActive()) {
+				for(TypeProduct t : a.getProducts()) {
+					long stock = productRepo.findStockPC(t.getNameProduct());
+					if(stock < a.getSeuil()) {
+						a.setTriggered(true);
+						alertRepo.save(a);
+					}
+				}
+			}
+		}
+		return listAlert;
+	}
+	
+	
+	@PatchMapping("deleteTypeProduct/{nameProduct}/{idAlert}") //API pour supprimer un produit d'une alerte
+	public Alert deleteTypeProduct(@PathVariable String nameProduct, @PathVariable Long idAlert) {
+		Optional<TypeProduct> t = typeProductRepo.findByNameProduct(nameProduct);
+		Optional<Alert> a = alertRepo.findById(idAlert);
+		a.get().getProducts().remove(t.get());
+		return alertRepo.save(a.get());
 	}
 	
 	@DeleteMapping("deleteAlert/{idAlert}")
