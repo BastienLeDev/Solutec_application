@@ -55,20 +55,21 @@ public class AlertRest {
 	}
 	
 	@GetMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
-	public Iterable<Alert> refreshAlert(){
+	public void refreshAlert(){
 		Iterable<Alert> listAlert = alertRepo.findAll();
 		for(Alert a : listAlert) {
 			if(a.isActive()) {
 				for(TypeProduct t : a.getProducts()) {
 					long stock = productRepo.findStockPC(t.getNameProduct());
-					if(stock < a.getSeuil()) {
+					if(stock <= a.getSeuil()) {
 						a.setTriggered(true);
-						alertRepo.save(a);
+					}else {
+						a.setTriggered(false);
 					}
 				}
-			}
+			alertRepo.save(a);	
+	}
 		}
-		return listAlert;
 	}
 	
 	
