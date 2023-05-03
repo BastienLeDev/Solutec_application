@@ -1,5 +1,6 @@
 package fr.solutec.entities;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,4 +33,6 @@ public class Alert {
 	private boolean Active;
 	private boolean Triggered ;
 	private boolean Email;
+	private Date date;
+	private String action;
 }

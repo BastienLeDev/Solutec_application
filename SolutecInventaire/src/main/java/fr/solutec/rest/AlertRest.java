@@ -2,6 +2,9 @@ package fr.solutec.rest;
 
 
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,22 +54,31 @@ public class AlertRest {
 		a.get().setProducts(alert.getProducts());
 		a.get().setActive(alert.isActive());
 		a.get().setTriggered(alert.isTriggered());
+		a.get().setAction(alert.getAction());
 		return alertRepo.save(a.get());
 	}
 	
-	@GetMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
+	@PatchMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
 	public void refreshAlert(){
+		GregorianCalendar calendar = new GregorianCalendar();
 		Iterable<Alert> listAlert = alertRepo.findAll();
 		for(Alert a : listAlert) {
 			if(a.isActive()) {
-				for(TypeProduct t : a.getProducts()) {
-					long stock = productRepo.findStockPC(t.getNameProduct());
-					if(stock <= a.getSeuil()) {
-						a.setTriggered(true);
-					}else {
-						a.setTriggered(false);
+				if(!a.getProducts().isEmpty()) {
+					for(TypeProduct t : a.getProducts()) {
+						long stock = productRepo.findStockPC(t.getNameProduct());
+						if(stock <= a.getSeuil()) {
+							if(!a.isTriggered()) {
+							a.setTriggered(true);
+							a.setDate(calendar.getTime());
+							}
+						}else {
+							a.setTriggered(false);
+						}
 					}
-				}
+				}else {
+					a.setTriggered(false);
+				}	
 			alertRepo.save(a);	
 	}
 		}
