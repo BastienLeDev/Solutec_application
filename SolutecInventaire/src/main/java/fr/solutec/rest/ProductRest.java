@@ -88,6 +88,7 @@ public class ProductRest {
 		p.setOwner(product.getOwner());
 		p.setEntryDate(product.getEntryDate());
 		p.setExitDate(product.getExitDate());
+		p.setReservation(product.isReservation());
 		productRepo.save(p);
 		return true;
 	}
