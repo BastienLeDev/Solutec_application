@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Product;
+import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
 
@@ -258,6 +259,25 @@ public class ProductRest {
 	public Iterable<Product> getReservation(){
 		return productRepo.findReservation() ;
 	}
+	
+	//Fonction qui reprend toutes celles d'avant
+		@GetMapping("products/getStock")
+		public List<List<String>> getStock(){
+			List<List<String>> listStock = new ArrayList<>();
+			Iterable<TypeProduct> listTypeProduct = typeProductRepo.findAll();
+			for (TypeProduct typeProduct : listTypeProduct) {
+				List<String> listByTypeProduct = new ArrayList<>();
+				String nameProduct = typeProduct.getNameProduct();
+				long dispo = productRepo.findStockPC(nameProduct);
+				long total = productRepo.findTotalPC(nameProduct);
+				String stockByProduct = dispo + " / " + total ;
+				listByTypeProduct.add(nameProduct);
+				listByTypeProduct.add(stockByProduct);
+				listStock.add(listByTypeProduct);	
+			}
+			return listStock;
+		}
+	
 	
 	@GetMapping("removeReservation/{idProduct}") //API pour voir le nombre de PC en stock
 	public Product removeReservation(@PathVariable Long idProduct){
