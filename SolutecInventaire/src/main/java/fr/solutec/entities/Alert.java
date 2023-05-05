@@ -35,5 +35,4 @@ public class Alert {
 	private boolean Email;
 	private Date date;
 	private String action;
-	private String notification;
 }
