@@ -22,6 +22,7 @@ import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.services.NotificationServices;
 
 @CrossOrigin("*")
 @RestController
@@ -33,6 +34,8 @@ public class AlertRest {
 	private TypeProductRepository typeProductRepo;
 	@Autowired
 	private ProductRepository productRepo;
+	@Autowired
+	private NotificationServices notificationServ;
 
 	
 	@PostMapping("createAlert") //API créer une alerte
@@ -71,6 +74,7 @@ public class AlertRest {
 							if(!a.isTriggered()) {
 							a.setTriggered(true);
 							a.setDate(calendar.getTime());
+							notificationServ.createNotification(a);
 							}
 						}else {
 							a.setTriggered(false);
