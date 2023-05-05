@@ -71,6 +71,7 @@ public class AlertRest {
 							if(!a.isTriggered()) {
 							a.setTriggered(true);
 							a.setDate(calendar.getTime());
+							a.setNotification(a.getAlerte() + "a été déclenchée");
 							}
 						}else {
 							a.setTriggered(false);
