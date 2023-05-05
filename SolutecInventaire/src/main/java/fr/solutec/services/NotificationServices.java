@@ -14,7 +14,7 @@ public class NotificationServices {
 	
 	public void createNotification(Alert a) {
 		Notification n = new Notification();
-		n.setAlerte(a);
+		n.setAlerte(a.getAlerte());
 		n.setDate(a.getDate());
 		notificationRepo.save(n);
 	}

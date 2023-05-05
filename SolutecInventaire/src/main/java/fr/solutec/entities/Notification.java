@@ -2,6 +2,7 @@ package fr.solutec.entities;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,8 +17,7 @@ import lombok.NoArgsConstructor;
 public class Notification {
 	@Id @GeneratedValue
 	private Long idNotification;
-	@OneToOne
-	private Alert alerte;
+	private String alerte;
 	private Date date;
 
 }
