@@ -264,17 +264,30 @@ public class ProductRest {
 		@GetMapping("products/getStock")
 		public List<List<String>> getStock(){
 			List<List<String>> listStock = new ArrayList<>();
-			Iterable<TypeProduct> listTypeProduct = typeProductRepo.findAll();
+			Iterable<TypeProduct> listTypeProduct = typeProductRepo.findAllOrderedByNameProduct();
+			List<String> listAutres = new ArrayList<>();
 			for (TypeProduct typeProduct : listTypeProduct) {
 				List<String> listByTypeProduct = new ArrayList<>();
 				String nameProduct = typeProduct.getNameProduct();
+				String autres = "Autres";
+				if(nameProduct.equals(autres)) {
+					long dispoAutres = productRepo.findStockPC(nameProduct);
+					long totalAutres = productRepo.findTotalPC(nameProduct);
+					String stockByProduct = dispoAutres + " / " + totalAutres ;
+					listAutres.add(nameProduct);
+					listAutres.add(stockByProduct);
+				}
+				else {
 				long dispo = productRepo.findStockPC(nameProduct);
 				long total = productRepo.findTotalPC(nameProduct);
 				String stockByProduct = dispo + " / " + total ;
 				listByTypeProduct.add(nameProduct);
 				listByTypeProduct.add(stockByProduct);
 				listStock.add(listByTypeProduct);	
+				}
+				
 			}
+			listStock.add(listAutres);
 			return listStock;
 		}
 	

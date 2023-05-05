@@ -58,8 +58,9 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		TypeProduct tp16 = new TypeProduct(null, "PC Intercontrat");
 		TypeProduct tp17 = new TypeProduct(null, "Badge structure");
 		TypeProduct tp18 = new TypeProduct(null, "Badge intercontrat");
-		TypeProduct tp19 = new TypeProduct(null, "Coque / vitre téléphone");
-		TypeProduct tp20 = new TypeProduct(null, "Autres");
+		TypeProduct tp19 = new TypeProduct(null, "Coque téléphone");
+		TypeProduct tp20 = new TypeProduct(null, "Vitre téléphone");
+		TypeProduct tp21 = new TypeProduct(null, "Autres");
 		
 		typeProductRepo.save(tp1);
 		typeProductRepo.save(tp2);
@@ -81,6 +82,7 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		typeProductRepo.save(tp18);
 		typeProductRepo.save(tp19);
 		typeProductRepo.save(tp20);
+		typeProductRepo.save(tp21);
 		
 		
 		
