@@ -26,19 +26,11 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	public Iterable<Product> findByExitDate(Date exitDate);
 	
 	
-	
-	
-	@Query("SELECT p FROM Product p WHERE owner = null")
-	public Set<Product> findStock();
-	
-	@Query("SELECT p FROM Product p WHERE owner <> null")
-	public Set<Product> findNotStock();
-	
 	@Query("SELECT COUNT(p) FROM Product p WHERE p.owner = null AND p.typeProduct.nameProduct = ?1")
-	public long findStockPC(String nameProduct);
+	public long findStock(String nameProduct);
 	
 	@Query("SELECT COUNT(p) FROM Product p WHERE p.typeProduct.nameProduct = ?1")
-	public long findTotalPC(String nameProduct);
+	public long findTotal(String nameProduct);
 	
 	@Query("SELECT p FROM Product p WHERE reservation = true")
 	public Iterable<Product> findReservation();

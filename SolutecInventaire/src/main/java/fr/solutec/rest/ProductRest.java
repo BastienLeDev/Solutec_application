@@ -94,175 +94,13 @@ public class ProductRest {
 		return true;
 	}
 	
-	
-	@GetMapping("getStockPc") //API pour voir le nombre de PC en stock
-	public String getStockPC(String nameProduct){
-		nameProduct = "PC intercontrat";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockSouris") //API pour voir le nombre de PC en stock
-	public String getStockSouris(String nameProduct){
-		nameProduct = "Souris";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockBadgeStructure") //API pour voir le nombre de PC en stock
-	public String getStockBadgeStructure(String nameProduct){
-		nameProduct = "Badge structure";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockBadgeIntercontrat") //API pour voir le nombre de PC en stock
-	public String getStockBadgeIntercontrat(String nameProduct){
-		nameProduct = "Badge intercontrat";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockAlim") //API pour voir le nombre de PC en stock
-	public String getStockAlim(String nameProduct){
-		nameProduct = "Alimentation";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockPosteMission") //API pour voir le nombre de PC en stock
-	public String getStockPosteMission(String nameProduct){
-		nameProduct = "Poste mission";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockPosteStructure") //API pour voir le nombre de PC en stock
-	public String getStockPosteStructure(String nameProduct){
-		nameProduct = "Poste structure";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockBase") //API pour voir le nombre de PC en stock
-	public String getStockBase(String nameProduct){
-		nameProduct = "Base";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockTelephoneMission") //API pour voir le nombre de PC en stock
-	public String getStockTelephoneMission(String nameProduct){
-		nameProduct = "Téléphone mission";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockTelephoneStructure") //API pour voir le nombre de PC en stock
-	public String getStockTelephoneStructure(String nameProduct){
-		nameProduct = "Téléphone structure";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockCasqueMission") //API pour voir le nombre de PC en stock
-	public String getStockCasqueMission(String nameProduct){
-		nameProduct = "Casque mission";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockCasqueStructure") //API pour voir le nombre de PC en stock
-	public String getStockCasqueStructure(String nameProduct){
-		nameProduct = "Casque structure";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockEcranTeletravail") //API pour voir le nombre de PC en stock
-	public String getStockEcranTeletravail(String nameProduct){
-		nameProduct = "Ecran télétravail";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockEcranStructure") //API pour voir le nombre de PC en stock
-	public String getStockEcranStructure(String nameProduct){
-		nameProduct = "Ecran structure";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockPCINT") //API pour voir le nombre de PC en stock
-	public String getStockPCINT(String nameProduct){
-		nameProduct = "PC INT";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockSupportPC") //API pour voir le nombre de PC en stock
-	public String getStockSupportPC(String nameProduct){
-		nameProduct = "Support PC";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockClavier") //API pour voir le nombre de PC en stock
-	public String getStockClavier(String nameProduct){
-		nameProduct = "Clavier";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockCablesHDMI") //API pour voir le nombre de PC en stock
-	public String getStockCablesHDMI(String nameProduct){
-		nameProduct = "Cables HDMI";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockCablesEthernet") //API pour voir le nombre de PC en stock
-	public String getStockCablesEthernet(String nameProduct){
-		nameProduct = "Cables ethernet";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
-	@GetMapping("getStockCoqueTelephone") //API pour voir le nombre de PC en stock
-	public String getStockCoqueTelephone(String nameProduct){
-		nameProduct = "Coque téléphone";
-		long dispo = productRepo.findStockPC(nameProduct);
-		long total = productRepo.findTotalPC(nameProduct);
-		return dispo + " / " + total ;
-	}
-	
 	@GetMapping("getReservation") //API pour voir le nombre de PC en stock
 	public Iterable<Product> getReservation(){
 		return productRepo.findReservation() ;
 	}
 	
-	//Fonction qui reprend toutes celles d'avant
-		@GetMapping("products/getStock")
-		public List<List<String>> getStock(){
+	@GetMapping("products/getStock") //API pour avoir les types de produits
+	public List<List<String>> getStock(){
 			List<List<String>> listStock = new ArrayList<>();
 			Iterable<TypeProduct> listTypeProduct = typeProductRepo.findAllOrderedByNameProduct();
 			List<String> listAutres = new ArrayList<>();
@@ -271,15 +109,15 @@ public class ProductRest {
 				String nameProduct = typeProduct.getNameProduct();
 				String autres = "Autres";
 				if(nameProduct.equals(autres)) {
-					long dispoAutres = productRepo.findStockPC(nameProduct);
-					long totalAutres = productRepo.findTotalPC(nameProduct);
+					long dispoAutres = productRepo.findStock(nameProduct);
+					long totalAutres = productRepo.findTotal(nameProduct);
 					String stockByProduct = dispoAutres + " / " + totalAutres ;
 					listAutres.add(nameProduct);
 					listAutres.add(stockByProduct);
 				}
 				else {
-				long dispo = productRepo.findStockPC(nameProduct);
-				long total = productRepo.findTotalPC(nameProduct);
+				long dispo = productRepo.findStock(nameProduct);
+				long total = productRepo.findTotal(nameProduct);
 				String stockByProduct = dispo + " / " + total ;
 				listByTypeProduct.add(nameProduct);
 				listByTypeProduct.add(stockByProduct);

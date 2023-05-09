@@ -71,7 +71,7 @@ public class AlertRest {
 			if(a.isActive()) {
 				if(!a.getProducts().isEmpty()) {
 					for(TypeProduct t : a.getProducts()) {
-						long stock = productRepo.findStockPC(t.getNameProduct());
+						long stock = productRepo.findStock(t.getNameProduct());
 						if(stock <= a.getSeuil()) {
 							product.add(t.getNameProduct());
 							if(!a.isTriggered()) {
