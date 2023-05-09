@@ -287,7 +287,9 @@ public class ProductRest {
 				}
 				
 			}
-			listStock.add(listAutres);
+			if(listAutres.isEmpty() != true) {
+				listStock.add(listAutres);
+			}
 			return listStock;
 		}
 	
