@@ -4,6 +4,7 @@ package fr.solutec.rest;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Optional;
 
@@ -62,7 +63,8 @@ public class AlertRest {
 	}
 	
 	@PatchMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
-	public void refreshAlert(){
+	public ArrayList<String> refreshAlert(){
+		ArrayList<String> product = new ArrayList<String>();
 		GregorianCalendar calendar = new GregorianCalendar();
 		Iterable<Alert> listAlert = alertRepo.findAll();
 		for(Alert a : listAlert) {
@@ -71,6 +73,7 @@ public class AlertRest {
 					for(TypeProduct t : a.getProducts()) {
 						long stock = productRepo.findStockPC(t.getNameProduct());
 						if(stock <= a.getSeuil()) {
+							product.add(t.getNameProduct());
 							if(!a.isTriggered()) {
 							a.setTriggered(true);
 							a.setDate(calendar.getTime());
@@ -86,6 +89,7 @@ public class AlertRest {
 			alertRepo.save(a);	
 	}
 		}
+		return product;
 	}
 	
 	
