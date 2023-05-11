@@ -2,11 +2,14 @@ package fr.solutec.rest;
 
 
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +26,7 @@ import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.services.MailServices;
 import fr.solutec.services.NotificationServices;
 
 @CrossOrigin("*")
@@ -37,6 +41,8 @@ public class AlertRest {
 	private ProductRepository productRepo;
 	@Autowired
 	private NotificationServices notificationServ;
+	@Autowired
+	private MailServices mailServ;
 
 	
 	@PostMapping("createAlert") //API créer une alerte
@@ -63,7 +69,7 @@ public class AlertRest {
 	}
 	
 	@PatchMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
-	public ArrayList<String> refreshAlert(){
+	public ArrayList<String> refreshAlert() throws UnsupportedEncodingException, MessagingException{
 		ArrayList<String> product = new ArrayList<String>();
 		GregorianCalendar calendar = new GregorianCalendar();
 		Iterable<Alert> listAlert = alertRepo.findAll();
@@ -78,9 +84,10 @@ public class AlertRest {
 							a.setTriggered(true);
 							a.setDate(calendar.getTime());
 							notificationServ.createNotification(a);
+							if(a.isEmail()) {
+							mailServ.sendEmail(a.getAlerte(),a.getDate());
 							}
-						}else {
-							a.setTriggered(false);
+							}
 						}
 					}
 				}else {
