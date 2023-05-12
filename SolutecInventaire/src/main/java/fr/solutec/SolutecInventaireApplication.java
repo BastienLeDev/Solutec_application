@@ -4,19 +4,24 @@ package fr.solutec;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fr.solutec.entities.Alert;
 import fr.solutec.entities.Product;
+import fr.solutec.entities.Roles;
 import fr.solutec.entities.TypeProduct;
 import fr.solutec.entities.User;
 import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
+import fr.solutec.repository.RolesRepository;
 import fr.solutec.repository.TypeProductRepository;
 import fr.solutec.repository.UserRepository;
 
@@ -28,6 +33,11 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 	private UserRepository userRepo;
 	@Autowired
 	private TypeProductRepository typeProductRepo;
+	@Autowired
+	private RolesRepository roleRepo;
+	
+	@Autowired
+	  private PasswordEncoder passwordEncoder;
 
 
 	
@@ -111,9 +121,22 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		Product p20 = new Product(null, tp3, null, null,Date.valueOf("2022-03-15"),null,false);
 		Product p21 = new Product(null, tp4, null, "Léo Rick",null,Date.valueOf("2022-01-24"),false);
 		
+		Roles r1 = new Roles(null,"ROLE_ADMIN");
+		Roles r2 = new Roles(null,"ROLE_USER");
 		
-		User u1 = new User(null, "User1", "testUser", "Rm1", "123");
-		User u2 = new User(null, "User2", "testUser2", "Rm2", "456");
+		roleRepo.save(r1);
+		roleRepo.save(r2);
+		
+		Collection<Roles> col1 = new ArrayList<>();
+		Collection<Roles> col2 = new ArrayList<>();
+		
+		col1.add(r1);
+		col1.add(r2);
+		
+		col2.add(r2);
+		
+		User u1 = new User(null, "User1", "testUser", "Rm1", passwordEncoder.encode("123"),col1);
+		User u2 = new User(null, "User2", "testUser2", "Rm2", passwordEncoder.encode("456"),col2);
 		
 		productRepo.save(p1);
 		productRepo.save(p2);
@@ -139,6 +162,8 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		
 		userRepo.save(u1);
 		userRepo.save(u2);
+		
+		
 		
 		
 	}
