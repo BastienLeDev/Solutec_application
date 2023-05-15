@@ -1,6 +1,9 @@
 package fr.solutec.security;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
+
+import fr.solutec.services.UserDetailsServiceImpl;
 
 import java.security.Key;
 import java.util.Date;
@@ -12,7 +15,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Component
@@ -71,4 +80,5 @@ public class JwtUtils {
 	        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	    }
 
+	    
 }

@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.solutec.entities.User;
 import fr.solutec.security.JwtUtils;
 import fr.solutec.services.UserDetailsServiceImpl;
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,15 +30,28 @@ public class authenticationRest {
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody User request) {
+    public Rep authenticate(@RequestBody User request) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
         final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(request.getLogin());
         if (userDetails != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(userDetails));
+        	Rep rep = new Rep();
+            rep.setContent(jwtUtils.generateToken(userDetails).toString());
+            return rep;
+            
         }
-        return ResponseEntity.status(400).body("Some error has occurred");
+        Rep rep = new Rep();
+        rep.setContent(ResponseEntity.status(400).body("Some error has occurred").toString());
+        return rep;
     }
+	
 
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class Rep {
+	private String content;
 }
