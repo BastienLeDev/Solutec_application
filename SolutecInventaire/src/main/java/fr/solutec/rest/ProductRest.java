@@ -1,25 +1,33 @@
 package fr.solutec.rest;
 
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.itextpdf.text.DocumentException;
 
 import fr.solutec.entities.Product;
 import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.services.pdfServices;
 
 
 @RestController
@@ -29,6 +37,8 @@ public class ProductRest {
 	private ProductRepository productRepo;
 	@Autowired
 	private TypeProductRepository typeProductRepo;
+	@Autowired
+	private pdfServices pdfServ;
 	
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel
@@ -138,4 +148,17 @@ public class ProductRest {
 		p.get().setReservation(false);
 		return productRepo.save(p.get()) ;
 	}
+	
+	@GetMapping("generatePDF")
+		public ResponseEntity<byte[]> pdfGeneration() throws FileNotFoundException, DocumentException {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_PDF);
+		    headers.setContentDisposition(ContentDisposition.builder("attachment")
+		            .filename("Rapport.pdf")
+		            .build());
+
+		    return new ResponseEntity<>(pdfServ.generatePDF(), headers, HttpStatus.OK);
+		}
+	
+	
 }
