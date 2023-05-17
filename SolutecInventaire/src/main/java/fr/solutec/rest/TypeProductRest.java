@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.solutec.entities.Alert;
 import fr.solutec.entities.Product;
 import fr.solutec.entities.TypeProduct;
+import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
 
@@ -23,6 +25,9 @@ public class TypeProductRest {
 	
 	@Autowired
 	private ProductRepository productRepo;
+	
+	@Autowired
+	private AlertRepository alertRepo;
 	
 	@GetMapping("typeProduct/liste")
 	public Iterable<TypeProduct> getAll() {
@@ -37,9 +42,17 @@ public class TypeProductRest {
 	@DeleteMapping("typeProduct/delete/{idTypeProduct}")
 	public void deleteTypeProduct(@PathVariable Long idTypeProduct) {
 		Iterable<Product> allProducts = productRepo.findAll();
+		Iterable<Alert> allAlerts = alertRepo.findAll();
 		for (Product product : allProducts) {
 			if(product.getTypeProduct() == typeProductRepo.findById(idTypeProduct).get()) {
 				productRepo.deleteById(product.getIdProduct());
+			}
+		}
+		for (Alert alert: allAlerts) {
+			for(TypeProduct t: alert.getProducts()) {
+				if(t == typeProductRepo.findById(idTypeProduct).get()) {
+					alertRepo.deleteById(alert.getIdAlert());
+				}
 			}
 		}
 		typeProductRepo.deleteById(idTypeProduct);
