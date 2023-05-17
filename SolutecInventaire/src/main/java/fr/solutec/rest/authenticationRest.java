@@ -11,49 +11,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.User;
+import fr.solutec.security.JwtResponse;
 import fr.solutec.security.JwtUtils;
 import fr.solutec.services.UserDetailsServiceImpl;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class authenticationRest {
-	
+
 	private final AuthenticationManager authenticationManager;
 	private final JwtUtils jwtUtils;
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
-	
+
 	@PostMapping("/authenticate")
-    public Rep authenticate(@RequestBody User request) {
+    public ResponseEntity<?> authenticate(@RequestBody User request) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword())
         );
         final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(request.getLogin());
         if (userDetails != null) {
-        	Rep rep = new Rep();
-            rep.setContent(jwtUtils.generateToken(userDetails).toString());
-            return rep;
-            
+        	final String token = jwtUtils.generateToken(userDetails);
+            return ResponseEntity.ok(new JwtResponse(token));
         }
-        Rep rep = new Rep();
-        rep.setContent(ResponseEntity.status(400).body("Some error has occurred").toString());
-        return rep;
+        return ResponseEntity.status(400).body("Some error has occurred");
     }
-	
-	
-	
 
-}
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class Rep {
-	private String content;
 }
