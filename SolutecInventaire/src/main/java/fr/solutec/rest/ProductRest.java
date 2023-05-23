@@ -89,13 +89,22 @@ public class ProductRest {
 	@PatchMapping("patch/product")
 	public Boolean patchProduct(@RequestBody Product product ) {
 		Product p = productRepo.findById(product.getIdProduct()).get();
+		// Instanciation du produit avant modification pour l'historique
+		Product pBefore = new Product();
+		pBefore.setTypeProduct(p.getTypeProduct());
+		pBefore.setEntryDate(p.getEntryDate());
+		pBefore.setExitDate(p.getExitDate());
+		pBefore.setRefProduct(p.getRefProduct());
+		pBefore.setOwner(p.getOwner());
+		pBefore.setReservation(p.isReservation());
+		// Modification du produit
 		p.setTypeProduct(typeProductRepo.findByNameProduct(product.getTypeProduct().getNameProduct()).get()) ;
 		p.setRefProduct(product.getRefProduct());
 		p.setOwner(product.getOwner());
 		p.setEntryDate(product.getEntryDate());
 		p.setExitDate(product.getExitDate());
 		p.setReservation(product.isReservation());
-		historicServ.modif(product, p);
+		historicServ.modif(pBefore, product);
 		productRepo.save(p);
 		return true;
 	}

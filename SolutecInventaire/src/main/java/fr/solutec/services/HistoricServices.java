@@ -20,7 +20,12 @@ public class HistoricServices {
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
 		h.setTypeModif("Ajout d'un produit");
-		h.setProductAfter(product);
+		h.setEntryDateA(product.getEntryDate());
+		h.setExitDateA(product.getExitDate());
+		h.setOwnerA(product.getOwner());
+		h.setRefProductA(product.getRefProduct());
+		h.setReservationA(product.isReservation());
+		h.setTypeProduct(product.getTypeProduct());
 		return historicRepo.save(h);
 	}
 	
@@ -29,7 +34,12 @@ public class HistoricServices {
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
 		h.setTypeModif("Suppression de produit");
-		h.setProductBefore(product.get());
+		h.setEntryDateB(product.get().getEntryDate());
+		h.setExitDateB(product.get().getExitDate());
+		h.setOwnerB(product.get().getOwner());
+		h.setRefProductB(product.get().getRefProduct());
+		h.setReservationB(product.get().isReservation());
+		h.setTypeProduct(product.get().getTypeProduct());
 		return historicRepo.save(h);
 		
 	}
@@ -38,9 +48,20 @@ public class HistoricServices {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
-		h.setProductAfter(productA);
-		h.setProductBefore(productB);
 		h.setTypeModif("Modification de produit");
+		h.setTypeProduct(productA.getTypeProduct());
+		// Produit avant la modification
+		h.setEntryDateA(productA.getEntryDate());
+		h.setExitDateA(productA.getExitDate());
+		h.setOwnerA(productA.getOwner());
+		h.setRefProductA(productA.getRefProduct());
+		h.setReservationA(productA.isReservation());
+		// Produit après la modification
+		h.setEntryDateB(productB.getEntryDate());
+		h.setExitDateB(productB.getExitDate());
+		h.setOwnerB(productB.getOwner());
+		h.setRefProductB(productB.getRefProduct());
+		h.setReservationB(productB.isReservation());
 		return historicRepo.save(h);
 	}
 	
