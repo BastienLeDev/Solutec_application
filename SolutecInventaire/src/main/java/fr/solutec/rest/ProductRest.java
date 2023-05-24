@@ -20,6 +20,7 @@ import fr.solutec.entities.Product;
 import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.services.HistoricServices;
 import jakarta.persistence.GeneratedValue;
 
 
@@ -30,6 +31,8 @@ public class ProductRest {
 	private ProductRepository productRepo;
 	@Autowired
 	private TypeProductRepository typeProductRepo;
+	@Autowired
+	private HistoricServices historicServ;
 	
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel
@@ -67,6 +70,7 @@ public class ProductRest {
 	public Boolean deleteProduct(@PathVariable Long idProduct){
 		Optional<Product> p = productRepo.findById(idProduct);
 		if(p.get() != null) {
+			historicServ.delete(p);
 			productRepo.deleteById(idProduct);
 			return true;
 		}else {
@@ -76,22 +80,31 @@ public class ProductRest {
 	
 	@PostMapping("add/database") //API Ajouter un article (dans la BDD/stock)
 	public Boolean addProduct(@RequestBody Product product ){
-			
 			Product p = new Product(null, product.getTypeProduct(), product.getRefProduct(), product.getOwner(), product.getEntryDate(), product.getExitDate(), product.isReservation());
 			productRepo.save(p);
-		
+			historicServ.add(p);
 		return true;
 		}
 	
 	@PatchMapping("patch/product")
 	public Boolean patchProduct(@RequestBody Product product ) {
 		Product p = productRepo.findById(product.getIdProduct()).get();
+		// Instanciation du produit avant modification pour l'historique
+		Product pBefore = new Product();
+		pBefore.setTypeProduct(p.getTypeProduct());
+		pBefore.setEntryDate(p.getEntryDate());
+		pBefore.setExitDate(p.getExitDate());
+		pBefore.setRefProduct(p.getRefProduct());
+		pBefore.setOwner(p.getOwner());
+		pBefore.setReservation(p.isReservation());
+		// Modification du produit
 		p.setTypeProduct(typeProductRepo.findByNameProduct(product.getTypeProduct().getNameProduct()).get()) ;
 		p.setRefProduct(product.getRefProduct());
 		p.setOwner(product.getOwner());
 		p.setEntryDate(product.getEntryDate());
 		p.setExitDate(product.getExitDate());
 		p.setReservation(product.isReservation());
+		historicServ.modif(pBefore, product);
 		productRepo.save(p);
 		return true;
 	}
