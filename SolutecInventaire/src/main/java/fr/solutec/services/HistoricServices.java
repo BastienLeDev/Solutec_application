@@ -15,7 +15,7 @@ public class HistoricServices {
 	@Autowired
 	private HistoricRepository historicRepo;
 	
-	public Historic add(Product product) {
+	public Historic add(Product product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -29,7 +29,7 @@ public class HistoricServices {
 		return historicRepo.save(h);
 	}
 	
-	public Historic delete(Optional<Product> product) {
+	public Historic delete(Optional<Product> product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -44,7 +44,7 @@ public class HistoricServices {
 		
 	}
 	
-	public Historic modif(Product productB, Product productA) {
+	public Historic modif(Product productB, Product productA, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());

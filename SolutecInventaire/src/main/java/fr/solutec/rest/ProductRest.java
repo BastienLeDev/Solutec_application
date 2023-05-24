@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Product;
 import fr.solutec.entities.TypeProduct;
+import fr.solutec.entities.User;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.repository.UserRepository;
 import fr.solutec.services.HistoricServices;
 
 
@@ -32,6 +34,8 @@ public class ProductRest {
 	private TypeProductRepository typeProductRepo;
 	@Autowired
 	private HistoricServices historicServ;
+	@Autowired
+	private UserRepository userRepo;
 	
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel
@@ -65,11 +69,12 @@ public class ProductRest {
 		return productRepo.findByExitDate(exitDate);
 	}
 	
-	@DeleteMapping("delete/{idProduct}") //API Supprimer un article (Suppression de la BDD)
-	public Boolean deleteProduct(@PathVariable Long idProduct){
+	@DeleteMapping("delete/{idProduct}/{idUser}") //API Supprimer un article (Suppression de la BDD)
+	public Boolean deleteProduct(@PathVariable Long idProduct, @PathVariable Long idUser){
 		Optional<Product> p = productRepo.findById(idProduct);
+		Optional<User> u =  userRepo.findById(idUser);
 		if(p.get() != null) {
-			historicServ.delete(p);
+			historicServ.delete(p,u.get().getLogin());
 			productRepo.deleteById(idProduct);
 			return true;
 		}else {
@@ -77,17 +82,19 @@ public class ProductRest {
 		}
 	}
 	
-	@PostMapping("add/database") //API Ajouter un article (dans la BDD/stock)
-	public Boolean addProduct(@RequestBody Product product ){
+	@PostMapping("add/database/{idUser}") //API Ajouter un article (dans la BDD/stock)
+	public Boolean addProduct(@RequestBody Product product, @PathVariable Long idUser ){
 			Product p = new Product(null, product.getTypeProduct(), product.getRefProduct(), product.getOwner(), product.getEntryDate(), product.getExitDate(), product.isReservation());
+			Optional<User> u =  userRepo.findById(idUser);
 			productRepo.save(p);
-			historicServ.add(p);
+			historicServ.add(p,u.get().getLogin());
 		return true;
 		}
 	
-	@PatchMapping("patch/product")
-	public Boolean patchProduct(@RequestBody Product product ) {
+	@PatchMapping("patch/product/{idUser}")
+	public Boolean patchProduct(@RequestBody Product product, @PathVariable Long idUser) {
 		Product p = productRepo.findById(product.getIdProduct()).get();
+		Optional<User> u =  userRepo.findById(idUser);
 		// Instanciation du produit avant modification pour l'historique
 		Product pBefore = new Product();
 		pBefore.setTypeProduct(p.getTypeProduct());
@@ -103,7 +110,7 @@ public class ProductRest {
 		p.setEntryDate(product.getEntryDate());
 		p.setExitDate(product.getExitDate());
 		p.setReservation(product.isReservation());
-		historicServ.modif(pBefore, product);
+		historicServ.modif(pBefore, product,u.get().getLogin());
 		productRepo.save(p);
 		return true;
 	}
