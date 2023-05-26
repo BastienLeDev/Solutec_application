@@ -15,7 +15,13 @@ public class HistoricServices {
 	@Autowired
 	private HistoricRepository historicRepo;
 	
-	public Historic add(Product product, String user) {
+	/**
+	 * Ajoute une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique enregistrée dans la BDD.
+	 */
+public Historic add(Product product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -26,11 +32,18 @@ public class HistoricServices {
 		h.setOwnerA(product.getOwner());
 		h.setRefProductA(product.getRefProduct());
 		h.setReservationA(product.isReservation());
-		h.setTypeProduct(product.getTypeProduct());
+		h.setTypeProduct(product.getTypeProduct().getNameProduct());
 		return historicRepo.save(h);
 	}
 	
-	public Historic delete(Optional<Product> product, String user) {
+
+	/**
+	 * Supprime une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique supprimée dans la BDD.
+	 */
+public Historic delete(Optional<Product> product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -41,18 +54,26 @@ public class HistoricServices {
 		h.setOwnerB(product.get().getOwner());
 		h.setRefProductB(product.get().getRefProduct());
 		h.setReservationB(product.get().isReservation());
-		h.setTypeProduct(product.get().getTypeProduct());
+		h.setTypeProduct(product.get().getTypeProduct().getNameProduct());
 		return historicRepo.save(h);
 		
 	}
 	
+
+	/**
+	 * Modifie une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product (avant modification).
+	 * @param Un objet de type Product (modifié).
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique modifiée dans la BDD.
+	 */
 	public Historic modif(Product productB, Product productA, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setUser(user);
 		h.setDateHistoric(calendar.getTime());
 		h.setTypeModif("Modification de produit");
-		h.setTypeProduct(productA.getTypeProduct());
+		h.setTypeProduct(productA.getTypeProduct().getNameProduct());
 		// Produit avant la modification
 		h.setEntryDateA(productA.getEntryDate());
 		h.setExitDateA(productA.getExitDate());

@@ -44,17 +44,31 @@ public class AlertRest {
 	@Autowired
 	private MailServices mailServ;
 
-	
+	/**
+	 * Créé un enregistre une alerte dans la BDD.
+	 * @param a l'objet de type Alert
+	 * @return L'alerte enregistrée dans la BDD.
+	 */
 	@PostMapping("createAlert") //API créer une alerte
 	public Alert createAlert(@RequestBody Alert a) {
 		return  alertRepo.save(a);
 	}
 	
+	/**
+	 * Affiche toute les objets de type Alert enregistrés dans la BDD.
+	 * @return La liste des alertes enregistrés dans la BDD.
+	 */
 	@GetMapping("getAlert") //API pour voir toute les alertes
 	public Iterable<Alert> alertHistory(){
 		return alertRepo.findAll();
 	}
 	
+	/**
+	 * Modifie un alerte déjà existante.
+	 * @param L'ID de l'alerte qui doit être modifiée.
+	 * @param Un objet de type Alert qui va remplacé l'alerte qui sera modifiée.
+	 * @return L'alerte modifiée et enregistrée dans la BDD.
+	 */
 	@PatchMapping("modifyAlert/{idAlert}") //API pour modifier une alerte
 	public Alert modifyAlert(@PathVariable Long idAlert, @RequestBody Alert alert) {
 		Optional<Alert> a = alertRepo.findById(idAlert);
@@ -68,22 +82,27 @@ public class AlertRest {
 		return alertRepo.save(a.get());
 	}
 	
+	//Vérifie si une alerte a été déclenchée suite à un modification.
 	@PatchMapping("refreshAlert") //API pour voir rafraichir l'état des alertes
 	public ArrayList<String> refreshAlert() throws UnsupportedEncodingException, MessagingException{
 		ArrayList<String> product = new ArrayList<String>();
 		GregorianCalendar calendar = new GregorianCalendar();
 		Iterable<Alert> listAlert = alertRepo.findAll();
 		for(Alert a : listAlert) {
+			//Vérifie que l'alerte est "active
 			if(a.isActive()) {
 				if(!a.getProducts().isEmpty()) {
 					for(TypeProduct t : a.getProducts()) {
 						long stock = productRepo.findStock(t.getNameProduct());
+						//Vérifie que le stock de chaque équipement assoscié à l'alerte est au dessus du seuil de l'alerte.
 						if(stock <= a.getSeuil()) {
 							product.add(t.getNameProduct());
+							// Si l'alerte est déclenchée, une notification est créée
 							if(!a.isTriggered()) {
 							a.setTriggered(true);
 							a.setDate(calendar.getTime());
 							notificationServ.createNotification(a);
+							// Si l'alerte est déclenchée et que la notification par mail est activée alors un mail automatique est généré
 							if(a.isEmail()) {
 							mailServ.sendEmail(a.getAlerte(),a.getDate());
 							}
@@ -99,7 +118,12 @@ public class AlertRest {
 		return product;
 	}
 	
-	
+	/**
+	 * Supprime un équipement d'une alerte.
+	 * @param Le nom du produit qui doit être supprimé.
+	 * @param L'ID de l'alerte dans laquelle le produit doit être supprimé.
+	 * @return L'alerte modifiée et enregistrée dans la BDD.
+	 */
 	@PatchMapping("deleteTypeProduct/{nameProduct}/{idAlert}") //API pour supprimer un produit d'une alerte
 	public Alert deleteTypeProduct(@PathVariable String nameProduct, @PathVariable Long idAlert) {
 		Optional<TypeProduct> t = typeProductRepo.findByNameProduct(nameProduct);
@@ -108,13 +132,21 @@ public class AlertRest {
 		return alertRepo.save(a.get());
 	}
 	
+	/**
+	 * Supprime une alerte.
+	 * @param L'ID de l'alerte qui doit être supprimée.
+	 * @return Un booléen.
+	 */
 	@DeleteMapping("deleteAlert/{idAlert}")
 	public boolean deleteAlert(@PathVariable Long idAlert){
 		alertRepo.deleteById(idAlert);
 		return true;
 	}
 	
-	
+	/**
+	 * Affiche la liste des alertes déclenchées.
+	 * @return Les alertes enregistrées dans la BDD avec trigerred=true.
+	 */
 	@GetMapping("getTrigger") //API pour voir les alertes déclenchées
 	public Iterable<Alert> triggerHistory(){
 		return alertRepo.findTrigger();

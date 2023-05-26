@@ -25,11 +25,7 @@ public class Historic {
 	private Long idHistoric;
 	private Date dateHistoric;
 	private String user;
-	@ManyToOne
-	@JoinTable(name = "typeProduct_historic",
-	joinColumns = @JoinColumn(name = "idHistoric"),
-	inverseJoinColumns = @JoinColumn(name = "idTypeProduct"))
-	private TypeProduct typeProduct;
+	private String typeProduct;
 	@Nullable
 	private String refProductB;
 	private String ownerB; // B=> Before
