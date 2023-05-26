@@ -27,14 +27,12 @@ public class Historic {
 	@OneToOne
 	private User user;
 	private String typeProduct;
-	@Column(unique=true)
 	@Nullable
 	private String refProductB;
 	private String ownerB; // B=> Before
 	private Date entryDateB; 
 	private Date exitDateB; 
 	private boolean reservationB;
-	@Column(unique=true)
 	@Nullable
 	private String refProductA;
 	private String ownerA; // A=> After
