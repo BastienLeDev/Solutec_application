@@ -15,6 +15,11 @@ public class HistoricServices {
 	@Autowired
 	private HistoricRepository historicRepo;
 	
+	/**
+	 * Ajoute une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+	 * @return La ligne d'historique enregistrée dans la BDD.
+	 */
 	public Historic add(Product product) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -29,6 +34,11 @@ public class HistoricServices {
 		return historicRepo.save(h);
 	}
 	
+	/**
+	 * Supprime une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+	 * @return La ligne d'historique supprimée dans la BDD.
+	 */
 	public Historic delete(Optional<Product> product) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -44,6 +54,12 @@ public class HistoricServices {
 		
 	}
 	
+	/**
+	 * Modifie une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product (avant modification).
+	 * @param Un objet de type Product (modifié).
+	 * @return La ligne d'historique modifiée dans la BDD.
+	 */
 	public Historic modif(Product productB, Product productA) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();

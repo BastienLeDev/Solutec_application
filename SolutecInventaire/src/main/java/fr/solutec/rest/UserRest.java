@@ -32,22 +32,15 @@ public class UserRest {
 	  @Autowired
 	  private UserRepository userRepository;
 	  
+	  
+	  /**
+		 * Ajoute un utilisateur dans la BDD.
+		 * @param Un objet de type User.
+		 * @return L'utilisateur créé un enregistré dans la BDD.
+		 */
 	  @PostMapping("user/registration") //API pour créer un utilisateur
 	  public User Creation(@RequestBody User u){
 		  u.setPassword(passwordEncoder.encode(u.getPassword()));
 		  return userRepository.save(u);
 	  }
-	  
-	  
-	  @GetMapping("user/liste") //API nécéssitant une authentification
-	  public Iterable<User> VoirListe(){
-		  return userRepository.findAll();
-		  }
-	  
-
-	  @GetMapping("user/coucou") //API accessible pour tout le monde
-	    public ResponseEntity<String> sayGoodBye() {
-	        return ResponseEntity.ok("Good by and see you later");
-	    }
-
 }
