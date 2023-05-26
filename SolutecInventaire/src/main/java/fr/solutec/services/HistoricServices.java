@@ -18,12 +18,14 @@ public class HistoricServices {
 	/**
 	 * Ajoute une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
 	 * @return La ligne d'historique enregistrée dans la BDD.
 	 */
-	public Historic add(Product product) {
+public Historic add(Product product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
+		h.setUser(user);
 		h.setTypeModif("Ajout d'un produit");
 		h.setEntryDateA(product.getEntryDate());
 		h.setExitDateA(product.getExitDate());
@@ -34,15 +36,18 @@ public class HistoricServices {
 		return historicRepo.save(h);
 	}
 	
+
 	/**
 	 * Supprime une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
 	 * @return La ligne d'historique supprimée dans la BDD.
 	 */
-	public Historic delete(Optional<Product> product) {
+public Historic delete(Optional<Product> product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
+		h.setUser(user);
 		h.setTypeModif("Suppression de produit");
 		h.setEntryDateB(product.get().getEntryDate());
 		h.setExitDateB(product.get().getExitDate());
@@ -54,15 +59,18 @@ public class HistoricServices {
 		
 	}
 	
+
 	/**
 	 * Modifie une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product (avant modification).
 	 * @param Un objet de type Product (modifié).
+   * @param Le login de l'utilisateur
 	 * @return La ligne d'historique modifiée dans la BDD.
 	 */
-	public Historic modif(Product productB, Product productA) {
+	public Historic modif(Product productB, Product productA, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
+		h.setUser(user);
 		h.setDateHistoric(calendar.getTime());
 		h.setTypeModif("Modification de produit");
 		h.setTypeProduct(productA.getTypeProduct().getNameProduct());

@@ -24,8 +24,7 @@ public class Historic {
 	@Id @GeneratedValue
 	private Long idHistoric;
 	private Date dateHistoric;
-	@OneToOne
-	private User user;
+	private String user;
 	private String typeProduct;
 	@Nullable
 	private String refProductB;
