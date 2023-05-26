@@ -69,12 +69,11 @@ public class ProductRest {
 		return productRepo.findByExitDate(exitDate);
 	}
 	
-	@DeleteMapping("delete/{idProduct}/{idUser}") //API Supprimer un article (Suppression de la BDD)
-	public Boolean deleteProduct(@PathVariable Long idProduct, @PathVariable Long idUser){
+	@DeleteMapping("delete/{idProduct}/{login}") //API Supprimer un article (Suppression de la BDD)
+	public Boolean deleteProduct(@PathVariable Long idProduct, @PathVariable String login){
 		Optional<Product> p = productRepo.findById(idProduct);
-		Optional<User> u =  userRepo.findById(idUser);
 		if(p.get() != null) {
-			historicServ.delete(p,u.get().getLogin());
+			historicServ.delete(p,login);
 			productRepo.deleteById(idProduct);
 			return true;
 		}else {
@@ -82,19 +81,17 @@ public class ProductRest {
 		}
 	}
 	
-	@PostMapping("add/database/{idUser}") //API Ajouter un article (dans la BDD/stock)
-	public Boolean addProduct(@RequestBody Product product, @PathVariable Long idUser ){
+	@PostMapping("add/database/{login}") //API Ajouter un article (dans la BDD/stock)
+	public Boolean addProduct(@RequestBody Product product, @PathVariable String login ){
 			Product p = new Product(null, product.getTypeProduct(), product.getRefProduct(), product.getOwner(), product.getEntryDate(), product.getExitDate(), product.isReservation());
-			Optional<User> u =  userRepo.findById(idUser);
 			productRepo.save(p);
-			historicServ.add(p,u.get().getLogin());
+			historicServ.add(p,login);
 		return true;
 		}
 	
-	@PatchMapping("patch/product/{idUser}")
-	public Boolean patchProduct(@RequestBody Product product, @PathVariable Long idUser) {
+	@PatchMapping("patch/product/{login}")
+	public Boolean patchProduct(@RequestBody Product product, @PathVariable String login) {
 		Product p = productRepo.findById(product.getIdProduct()).get();
-		Optional<User> u =  userRepo.findById(idUser);
 		// Instanciation du produit avant modification pour l'historique
 		Product pBefore = new Product();
 		pBefore.setTypeProduct(p.getTypeProduct());
@@ -110,7 +107,7 @@ public class ProductRest {
 		p.setEntryDate(product.getEntryDate());
 		p.setExitDate(product.getExitDate());
 		p.setReservation(product.isReservation());
-		historicServ.modif(pBefore, product,u.get().getLogin());
+		historicServ.modif(pBefore, product,login);
 		productRepo.save(p);
 		return true;
 	}
