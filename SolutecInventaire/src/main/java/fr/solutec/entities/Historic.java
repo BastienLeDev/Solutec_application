@@ -30,14 +30,12 @@ public class Historic {
 	joinColumns = @JoinColumn(name = "idHistoric"),
 	inverseJoinColumns = @JoinColumn(name = "idTypeProduct"))
 	private TypeProduct typeProduct;
-	@Column(unique=true)
 	@Nullable
 	private String refProductB;
 	private String ownerB; // B=> Before
 	private Date entryDateB; 
 	private Date exitDateB; 
 	private boolean reservationB;
-	@Column(unique=true)
 	@Nullable
 	private String refProductA;
 	private String ownerA; // A=> After
