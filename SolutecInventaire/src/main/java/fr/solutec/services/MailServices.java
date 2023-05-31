@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailServices {
 	
+	/**
+	 * Génère et envoie un mail automatique.
+	 * @param L'objet du mail généré.
+	 * @param La date du déclenchement de l'alerte à l'origine du mail.
+	 */
 	public void sendEmail(String subject, Date date) throws MessagingException,
     UnsupportedEncodingException {
 	

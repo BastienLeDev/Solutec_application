@@ -36,7 +36,7 @@ public class UserRest {
 	  /**
 		 * Ajoute un utilisateur dans la BDD.
 		 * @param Un objet de type User.
-		 * @return L'utilisateur créé un enregistré dans la BDD.
+		 * @return L'utilisateur créé et enregistré dans la BDD.
 		 */
 	  @PostMapping("user/registration") //API pour créer un utilisateur
 	  public User Creation(@RequestBody User u){

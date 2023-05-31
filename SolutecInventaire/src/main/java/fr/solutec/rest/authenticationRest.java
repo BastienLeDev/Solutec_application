@@ -25,7 +25,12 @@ public class authenticationRest {
 	private final JwtUtils jwtUtils;
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
-
+	
+	/**
+	 * Authentifie l'utilisateur.
+	 * @param Un objet de type User.
+	 * @return Un token généré si l'authentification est correcte.
+	 */
 	@PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody User request) {
         authenticationManager.authenticate(

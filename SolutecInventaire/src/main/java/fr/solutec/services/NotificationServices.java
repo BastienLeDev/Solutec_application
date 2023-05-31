@@ -12,6 +12,10 @@ public class NotificationServices {
 	@Autowired
 	private NotificationRepository notificationRepo;
 	
+	/**
+	 * Enregistre une notification dans la BDD.
+	 * @param Un objet de type Alert.
+	 */
 	public void createNotification(Alert a) {
 		Notification n = new Notification();
 		n.setAlerte(a.getAlerte());

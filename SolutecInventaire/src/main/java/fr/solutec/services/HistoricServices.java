@@ -18,7 +18,7 @@ public class HistoricServices {
 	/**
 	 * Ajoute une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product.
-   * @param Le login de l'utilisateur
+	 * @param Le login de l'utilisateur
 	 * @return La ligne d'historique enregistrée dans la BDD.
 	 */
 public Historic add(Product product, String user) {
@@ -40,7 +40,7 @@ public Historic add(Product product, String user) {
 	/**
 	 * Supprime une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product.
-   * @param Le login de l'utilisateur
+	 * @param Le login de l'utilisateur
 	 * @return La ligne d'historique supprimée dans la BDD.
 	 */
 public Historic delete(Optional<Product> product, String user) {
@@ -64,7 +64,7 @@ public Historic delete(Optional<Product> product, String user) {
 	 * Modifie une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product (avant modification).
 	 * @param Un objet de type Product (modifié).
-   * @param Le login de l'utilisateur
+	 * @param Le login de l'utilisateur
 	 * @return La ligne d'historique modifiée dans la BDD.
 	 */
 	public Historic modif(Product productB, Product productA, String user) {
