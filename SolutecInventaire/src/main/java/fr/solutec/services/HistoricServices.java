@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import fr.solutec.entities.Historic;
 import fr.solutec.entities.Product;
+import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.HistoricRepository;
 
 @Service
@@ -36,6 +37,16 @@ public Historic add(Product product, String user) {
 		return historicRepo.save(h);
 	}
 	
+	public Historic addType(TypeProduct typeProduct, String user) {
+		Historic h =new Historic(); 
+		GregorianCalendar calendar = new GregorianCalendar();
+		h.setDateHistoric(calendar.getTime());
+		h.setUser(user);
+		h.setTypeModif("Ajout d'un nouveau type de produit");
+		h.setTypeProduct(typeProduct.getNameProduct());
+		return historicRepo.save(h);
+	}
+	
 
 	/**
 	 * Supprime une ligne d'historique dans la BDD.
@@ -59,6 +70,16 @@ public Historic delete(Optional<Product> product, String user) {
 		
 	}
 	
+
+	public Historic deleteTypeProduct(TypeProduct typeProduct, String user) {
+		Historic h = new Historic();
+		GregorianCalendar calendar = new GregorianCalendar();
+		h.setDateHistoric(calendar.getTime());
+		h.setUser(user);
+		h.setTypeModif("Suppression d'un type de produit");
+		h.setTypeProduct(typeProduct.getNameProduct());
+		return historicRepo.save(h);
+	}
 
 	/**
 	 * Modifie une ligne d'historique dans la BDD.

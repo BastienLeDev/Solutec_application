@@ -15,6 +15,7 @@ import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
+import fr.solutec.services.HistoricServices;
 
 @RestController
 @CrossOrigin("*")
@@ -29,18 +30,23 @@ public class TypeProductRest {
 	@Autowired
 	private AlertRepository alertRepo;
 	
+	@Autowired
+	private HistoricServices historicServ;
+	
 	@GetMapping("typeProduct/liste")
 	public Iterable<TypeProduct> getAll() {
 		return typeProductRepo.findAllOrderedByNameProduct();
 	}
 	
-	@PostMapping("typeProduct/add")
-	public TypeProduct addTypeProduct(@RequestBody TypeProduct typeProduct) {
-		return typeProductRepo.save(typeProduct);
+	@PostMapping("typeProduct/add/{login}")
+	public TypeProduct addTypeProduct(@RequestBody TypeProduct typeProduct, @PathVariable String login) {
+		typeProductRepo.save(typeProduct);
+		historicServ.addType(typeProduct, login);
+		return typeProduct;
 	}
 	
-	@DeleteMapping("typeProduct/delete/{idTypeProduct}")
-	public void deleteTypeProduct(@PathVariable Long idTypeProduct) {
+	@DeleteMapping("typeProduct/delete/{idTypeProduct}/{login}")
+	public void deleteTypeProduct(@PathVariable Long idTypeProduct, @PathVariable String login ) {
 		Iterable<Product> allProducts = productRepo.findAll();
 		Iterable<Alert> allAlerts = alertRepo.findAll();
 		for (Product product : allProducts) {
@@ -55,6 +61,7 @@ public class TypeProductRest {
 				}
 			}
 		}
+		historicServ.deleteTypeProduct(typeProductRepo.findById(idTypeProduct).get(), login);
 		typeProductRepo.deleteById(idTypeProduct);
 		
 	}
