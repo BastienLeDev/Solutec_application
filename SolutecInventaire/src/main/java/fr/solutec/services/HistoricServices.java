@@ -16,7 +16,13 @@ public class HistoricServices {
 	@Autowired
 	private HistoricRepository historicRepo;
 	
-	public Historic add(Product product, String user) {
+	/**
+	 * Ajoute une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique enregistrée dans la BDD.
+	 */
+public Historic add(Product product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -41,7 +47,14 @@ public class HistoricServices {
 		return historicRepo.save(h);
 	}
 	
-	public Historic delete(Optional<Product> product, String user) {
+
+	/**
+	 * Supprime une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product.
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique supprimée dans la BDD.
+	 */
+public Historic delete(Optional<Product> product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
@@ -57,6 +70,7 @@ public class HistoricServices {
 		
 	}
 	
+
 	public Historic deleteTypeProduct(TypeProduct typeProduct, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -66,7 +80,14 @@ public class HistoricServices {
 		h.setTypeProduct(typeProduct.getNameProduct());
 		return historicRepo.save(h);
 	}
-	
+
+	/**
+	 * Modifie une ligne d'historique dans la BDD.
+	 * @param Un objet de type Product (avant modification).
+	 * @param Un objet de type Product (modifié).
+   * @param Le login de l'utilisateur
+	 * @return La ligne d'historique modifiée dans la BDD.
+	 */
 	public Historic modif(Product productB, Product productA, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
