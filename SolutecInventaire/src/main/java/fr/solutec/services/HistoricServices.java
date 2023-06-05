@@ -37,6 +37,12 @@ public Historic add(Product product, String user) {
 		return historicRepo.save(h);
 	}
 	
+	/**
+	 * Ajoute une ligne d'historique dans la BDD.
+	 * @param Un objet de type typeProduct.
+	 * @param Le login de l'utilisateur
+	 * @return La ligne d'historique enregistrée dans la BDD.
+	 */
 	public Historic addType(TypeProduct typeProduct, String user) {
 		Historic h =new Historic(); 
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -49,7 +55,7 @@ public Historic add(Product product, String user) {
 	
 
 	/**
-	 * Supprime une ligne d'historique dans la BDD.
+	 * Ajoute une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product.
 	 * @param Le login de l'utilisateur
 	 * @return La ligne d'historique supprimée dans la BDD.
@@ -70,7 +76,12 @@ public Historic delete(Optional<Product> product, String user) {
 		
 	}
 	
-
+	/**
+	 * Modifie une ligne d'historique dans la BDD.
+	 * @param Un objet de type typeProduct.
+	 * @param Le login de l'utilisateur.
+	 * @return La ligne d'historique modifiée dans la BDD.
+	 */
 	public Historic deleteTypeProduct(TypeProduct typeProduct, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -82,7 +93,7 @@ public Historic delete(Optional<Product> product, String user) {
 	}
 
 	/**
-	 * Modifie une ligne d'historique dans la BDD.
+	 * Ajoute une ligne d'historique dans la BDD.
 	 * @param Un objet de type Product (avant modification).
 	 * @param Un objet de type Product (modifié).
 	 * @param Le login de l'utilisateur

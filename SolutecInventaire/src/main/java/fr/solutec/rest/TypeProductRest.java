@@ -1,5 +1,7 @@
 package fr.solutec.rest;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,6 +53,8 @@ public class TypeProductRest {
 		Iterable<Alert> allAlerts = alertRepo.findAll();
 		for (Product product : allProducts) {
 			if(product.getTypeProduct() == typeProductRepo.findById(idTypeProduct).get()) {
+				Optional<Product> p = productRepo.findById(product.getIdProduct());
+				historicServ.delete(p, login);
 				productRepo.deleteById(product.getIdProduct());
 			}
 		}
