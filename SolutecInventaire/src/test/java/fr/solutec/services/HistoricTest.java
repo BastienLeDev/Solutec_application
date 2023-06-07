@@ -124,6 +124,25 @@ public class HistoricTest {
         assertEquals(expectedHistoric.isReservationB(), actualHistoric.isReservationB());
         assertEquals(expectedHistoric.getTypeProduct(), actualHistoric.getTypeProduct());
 	}
+
+    @Test
+    public void testDeleteTypeProduct(){
+        //Type de produit fictif
+        TypeProduct t1 = new TypeProduct(null,"type");
+
+        //Ligne d'historique attendue
+        Historic expectedHistoric = new Historic();
+        expectedHistoric.setTypeProduct(t1.getNameProduct());
+        expectedHistoric.setTypeModif("Suppression d'un type de produit");
+        expectedHistoric.setUser("TestUser");
+
+        Historic actualHistoric = historicServ.deleteTypeProduct(t1,"TestUser");
+
+        //Vérification
+        assertEquals(expectedHistoric.getUser(), actualHistoric.getUser());
+        assertEquals(expectedHistoric.getTypeModif(), actualHistoric.getTypeModif());
+        assertEquals(expectedHistoric.getTypeProduct(), actualHistoric.getTypeProduct());
+    }
 	
 	@Test
 	public void testModif() {
