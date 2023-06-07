@@ -14,12 +14,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import fr.solutec.entities.Alert;
 import fr.solutec.entities.Product;
 import fr.solutec.entities.Roles;
 import fr.solutec.entities.TypeProduct;
 import fr.solutec.entities.User;
-import fr.solutec.repository.AlertRepository;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.RolesRepository;
 import fr.solutec.repository.TypeProductRepository;
@@ -132,7 +130,6 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		
 		col1.add(r1);
 		col1.add(r2);
-		
 		col2.add(r2);
 		
 		User u1 = new User(null, "User1", "testUser", "Rm1", passwordEncoder.encode("123"),col1);
