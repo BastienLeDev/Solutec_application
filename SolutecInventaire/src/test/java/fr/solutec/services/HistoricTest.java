@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Date;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,8 +68,61 @@ public class HistoricTest {
     }
 	
 	@Test
+	public void testAddTypeProduct() {
+		//Créer un type de produit facultatif
+		TypeProduct t1 = new TypeProduct(null,"type");
+		
+		// Créer un objet Historic pour stocker les valeurs attendues
+		Historic expectedHistoric = new Historic();
+        GregorianCalendar calendar = new GregorianCalendar();
+        expectedHistoric.setDateHistoric(calendar.getTime());
+        expectedHistoric.setUser("TestUser");
+        expectedHistoric.setTypeModif("Ajout d'un nouveau type de produit");
+        expectedHistoric.setTypeProduct(t1.getNameProduct());
+        
+        Historic actualHistoric = historicServ.addType(t1,"TestUser");
+        
+     // Vérifier si les valeurs retournées par la méthode correspondent aux valeurs attendues
+        assertEquals(expectedHistoric.getDateHistoric(), actualHistoric.getDateHistoric());
+        assertEquals(expectedHistoric.getUser(), actualHistoric.getUser());
+        assertEquals(expectedHistoric.getTypeModif(), actualHistoric.getTypeModif());
+        assertEquals(expectedHistoric.getTypeProduct(), actualHistoric.getTypeProduct());
+	}
+	
+	@Test
 	public void testDelete() {
-
+		// Créer un produit fictif pour les besoins du test
+		Product product = new Product();
+        product.setEntryDate(new Date(5));
+        product.setExitDate(new Date(5));
+        product.setOwner("John Doe");
+        product.setRefProduct("123456");
+        product.setReservation(true);
+        TypeProduct t1 = new TypeProduct(null,"type");
+        product.setTypeProduct(t1);
+        
+     // Créer un objet Historic pour stocker les valeurs attendues
+        Historic expectedHistoric = new Historic();
+        expectedHistoric.setUser("TestUser");
+        expectedHistoric.setTypeModif("Suppression de produit");
+        expectedHistoric.setEntryDateB(product.getEntryDate());
+        expectedHistoric.setExitDateB(product.getExitDate());
+        expectedHistoric.setOwnerB(product.getOwner());
+        expectedHistoric.setRefProductB(product.getRefProduct());
+        expectedHistoric.setReservationB(product.isReservation());
+        expectedHistoric.setTypeProduct(product.getTypeProduct().getNameProduct());
+        
+        Historic actualHistoric = historicServ.delete(product,"TestUser");
+        
+        //Vérification
+        assertEquals(expectedHistoric.getUser(), actualHistoric.getUser());
+        assertEquals(expectedHistoric.getTypeModif(), actualHistoric.getTypeModif());
+        assertEquals(expectedHistoric.getEntryDateB(), actualHistoric.getEntryDateB());
+        assertEquals(expectedHistoric.getExitDateB(), actualHistoric.getExitDateB());
+        assertEquals(expectedHistoric.getOwnerB(), actualHistoric.getOwnerB());
+        assertEquals(expectedHistoric.getRefProductB(), actualHistoric.getRefProductB());
+        assertEquals(expectedHistoric.isReservationB(), actualHistoric.isReservationB());
+        assertEquals(expectedHistoric.getTypeProduct(), actualHistoric.getTypeProduct());
 	}
 	
 	@Test

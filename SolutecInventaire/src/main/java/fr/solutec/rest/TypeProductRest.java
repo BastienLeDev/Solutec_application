@@ -54,7 +54,7 @@ public class TypeProductRest {
 		for (Product product : allProducts) {
 			if(product.getTypeProduct() == typeProductRepo.findById(idTypeProduct).get()) {
 				Optional<Product> p = productRepo.findById(product.getIdProduct());
-				historicServ.delete(p, login);
+				historicServ.delete(p.get(), login);
 				productRepo.deleteById(product.getIdProduct());
 			}
 		}

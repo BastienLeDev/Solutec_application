@@ -60,18 +60,18 @@ public Historic add(Product product, String user) {
 	 * @param Le login de l'utilisateur
 	 * @return La ligne d'historique supprimée dans la BDD.
 	 */
-public Historic delete(Optional<Product> product, String user) {
+public Historic delete(Product product, String user) {
 		Historic h = new Historic();
 		GregorianCalendar calendar = new GregorianCalendar();
 		h.setDateHistoric(calendar.getTime());
 		h.setUser(user);
 		h.setTypeModif("Suppression de produit");
-		h.setEntryDateB(product.get().getEntryDate());
-		h.setExitDateB(product.get().getExitDate());
-		h.setOwnerB(product.get().getOwner());
-		h.setRefProductB(product.get().getRefProduct());
-		h.setReservationB(product.get().isReservation());
-		h.setTypeProduct(product.get().getTypeProduct().getNameProduct());
+		h.setEntryDateB(product.getEntryDate());
+		h.setExitDateB(product.getExitDate());
+		h.setOwnerB(product.getOwner());
+		h.setRefProductB(product.getRefProduct());
+		h.setReservationB(product.isReservation());
+		h.setTypeProduct(product.getTypeProduct().getNameProduct());
 		return historicRepo.save(h);
 		
 	}

@@ -73,7 +73,7 @@ public class ProductRest {
 	public Boolean deleteProduct(@PathVariable Long idProduct, @PathVariable String login){
 		Optional<Product> p = productRepo.findById(idProduct);
 		if(p.get() != null) {
-			historicServ.delete(p,login);
+			historicServ.delete(p.get(),login);
 			productRepo.deleteById(idProduct);
 			return true;
 		}else {
