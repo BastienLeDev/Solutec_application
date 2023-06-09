@@ -2,6 +2,7 @@ package fr.solutec.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -12,8 +13,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.solutec.entities.Alert;
+import fr.solutec.repository.AlertRepository;
 
 
 @RunWith(SpringRunner.class)
@@ -22,18 +30,68 @@ import org.springframework.test.web.servlet.MockMvc;
 public class alertRestTest {
 	@Autowired
 	private MockMvc mockMvc;
+	@Autowired
+	private AlertRepository alertRepo;
 	
-	// A revoir car accès refusé avec Spring security + pas d'alerte fictive
 	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
 	public void modifyAlertTest() throws Exception {
-		mockMvc.perform(patch("/modifyAlert/1"))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$[1].alerte", is("test")))
-			.andExpect(jsonPath("$[2].seuil", is(1)))
-			.andExpect(jsonPath("$[3].active", is(false)))
-			.andExpect(jsonPath("$[4].triggered", is(false)))
-			.andExpect(jsonPath("$[5].Email", is(false)));
+		//Alerte fictive avant modification
+		Alert a = new Alert();
+		a.setAlerte("Alerte");
+		a.setIdAlert((long) 1);
+		a.setSeuil(0);
+		a.setActive(false);
+		a.setEmail(false);
+		a.setTriggered(false);
+		alertRepo.save(a);
 		
+		//Alerte fictive après modification
+		Alert a2 = new Alert();
+		a2.setAlerte("Alerte_après_Test");
+		a2.setSeuil(10);
+		a2.setActive(true);
+		a2.setEmail(false);
+		a2.setTriggered(false);
+		
+		mockMvc.perform(patch("/modifyAlert/{idAlert}",a.getIdAlert())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(a2))
+				)
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.alerte").value("Alerte_après_Test"))
+			.andExpect(jsonPath("$.seuil").value(10))
+			.andExpect(jsonPath("$.active").value(true))
+			.andExpect(jsonPath("$.triggered").value(false))
+			.andExpect(jsonPath("$.email").value(false));
 	}
+	
+	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
+	public void creatAlertTest() throws Exception{
+		//Alerte fictive
+		Alert a = new Alert();
+		a.setAlerte("Alerte");
+		a.setEmail(false);
+		a.setSeuil(2);
+		a.setTriggered(false);
+		a.setActive(false);
+		
+		//Test API
+		mockMvc.perform(post("/createAlert")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(a)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.alerte").value("Alerte"))
+				.andExpect(jsonPath("$.email").value(false))
+				.andExpect(jsonPath("$.triggered").value(false))
+				.andExpect(jsonPath("$.active").value(false))
+				.andExpect(jsonPath("$.seuil").value(2));
+	}
+	
+	private String asJsonString(Object obj) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(obj);
+    }
 
 }
