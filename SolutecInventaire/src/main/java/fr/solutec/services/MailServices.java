@@ -42,7 +42,7 @@ public class MailServices {
 	Session session = Session.getInstance(props,
 			  new Authenticator() {
 			    protected PasswordAuthentication getPasswordAuthentication() {
-			        return new PasswordAuthentication("bgauthiero@consultants-solutec.fr", "y!GgF%8jC461J9C-");
+			        return new PasswordAuthentication("bgauthiero@consultants-solutec.fr", "mdp");
 			    }
 			  });
 	
