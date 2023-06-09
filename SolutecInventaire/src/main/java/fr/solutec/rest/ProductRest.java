@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.solutec.entities.Product;
 import fr.solutec.entities.TypeProduct;
-import fr.solutec.entities.User;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
-import fr.solutec.repository.UserRepository;
 import fr.solutec.services.HistoricServices;
 
 
@@ -34,8 +32,6 @@ public class ProductRest {
 	private TypeProductRepository typeProductRepo;
 	@Autowired
 	private HistoricServices historicServ;
-	@Autowired
-	private UserRepository userRepo;
 	
 	
 	@GetMapping("liste") // API pour avoir la liste de tout le matériel

@@ -20,7 +20,8 @@ import fr.solutec.entities.TypeProduct;
 import fr.solutec.repository.ProductRepository;
 import fr.solutec.repository.TypeProductRepository;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,6 +35,8 @@ public class productRestTest {
     private MockMvc mockMvc;
     @Autowired
     private TypeProductRepository typeproductRepo;
+    @Autowired
+    private ProductRepository productRepo;
     
     @Test
     @WithMockUser(username = "UserTest", roles = "ADMIN")
@@ -54,6 +57,88 @@ public class productRestTest {
 				.content(asJsonString(product)))
         		.andExpect(status().isOk());
     }
+    
+    @Test
+    @WithMockUser(username = "UserTest", roles = "ADMIN")
+    public void patchProductTest() throws Exception{
+    	//Créer un type de produit fictif 
+        TypeProduct t2 = new TypeProduct(null,"type2");
+        typeproductRepo.save(t2);
+        
+        //Créer un produit fictif avant modification
+        Product product3 = new Product();
+        product3.setTypeProduct(t2);
+        product3.setRefProduct("ref1");
+        product3.setOwner("owner");
+        product3.setReservation(false);
+        productRepo.save(product3);
+        
+        //Créer un produit fictif après modification
+        Product product2 = new Product();
+        product2.setIdProduct(product3.getIdProduct());
+        product2.setTypeProduct(product3.getTypeProduct());
+        product2.setRefProduct("ref2");
+        product2.setOwner("");
+        product2.setReservation(true);
+        
+        //Appel de l'API à tester
+        mockMvc.perform(patch("/patch/product/{login}","UserTest")
+        		.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(product2)))
+        		.andExpect(status().isOk());
+    };
+    
+    @Test
+    @WithMockUser(username = "UserTest", roles = "ADMIN")
+    public void deleteProductTest() throws Exception{
+    	//Créer un type de produit fictif 
+        TypeProduct t3 = new TypeProduct(null,"type3");
+        typeproductRepo.save(t3);
+        
+    	//Créer un produit fictif à supprimé
+        Product product4 = new Product();
+        product4.setTypeProduct(t3);
+        product4.setRefProduct("ref2");
+        product4.setOwner("owner");
+        product4.setReservation(false);
+        productRepo.save(product4);
+        
+        //Appel de l'API
+        mockMvc.perform(delete("/delete/{idProduct}/{login}", product4.getIdProduct(), "UserTest")
+        		.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(product4)))
+        		.andExpect(status().isOk())
+        		.andExpect(content().string("true"));
+    }
+    
+    @Test
+    @WithMockUser(username = "UserTest", roles = "ADMIN")
+    public void deleteNotProductTest() throws Exception{
+    	//Créer un type de produit fictif 
+        TypeProduct t3 = new TypeProduct(null,"type3");
+        
+    	//Créer un produit fictif à supprimé
+        Product product4 = new Product();
+        product4.setTypeProduct(t3);
+        product4.setRefProduct("ref2");
+        product4.setOwner("owner");
+        product4.setReservation(false);
+        
+        //Appel de l'API
+        mockMvc.perform(delete("/delete/"+ product4.getIdProduct() + "/UserTest")
+        		.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(product4)))
+        		.andExpect(status().is4xxClientError());
+    }
+    
+    @Test
+    @WithMockUser(username = "UserTest", roles = "ADMIN")
+    public void getStockTest() throws Exception{
+    	//Appel de l'API
+    	mockMvc.perform(get("/products/getStock"))
+    			.andExpect(status().isOk());
+    }
+    
     
     private String asJsonString(Object obj) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
