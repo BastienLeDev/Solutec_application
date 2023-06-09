@@ -5,13 +5,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -137,6 +134,27 @@ public class productRestTest {
     	//Appel de l'API
     	mockMvc.perform(get("/products/getStock"))
     			.andExpect(status().isOk());
+    }
+    
+    @Test
+    @WithMockUser(username = "UserTest", roles = "ADMIN")
+    public void removeReservationTest() throws Exception{
+    	//Créer un type de produit fictif 
+        TypeProduct t4 = new TypeProduct(null,"type4");
+        typeproductRepo.save(t4);
+    	//Créer un produit fictif à supprimé
+        Product product5 = new Product();
+        product5.setTypeProduct(t4);
+        product5.setRefProduct("ref3");
+        product5.setOwner("owner");
+        product5.setReservation(true);
+        productRepo.save(product5);
+        
+        mockMvc.perform(get("/removeReservation/{idProduct}", product5.getIdProduct()))
+        		.andExpect(status().isOk())
+        		.andExpect(jsonPath("$.reservation").value(false))
+    			.andExpect(jsonPath("$.owner").value("owner"))
+    			.andExpect(jsonPath("$.refProduct").value("ref3"));
     }
     
     

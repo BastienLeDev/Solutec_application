@@ -2,6 +2,7 @@ package fr.solutec.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,6 +64,29 @@ public class alertRestTest {
 			.andExpect(jsonPath("$.active").value(true))
 			.andExpect(jsonPath("$.triggered").value(false))
 			.andExpect(jsonPath("$.email").value(false));
+	}
+	
+	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
+	public void creatAlertTest() throws Exception{
+		//Alerte fictive
+		Alert a = new Alert();
+		a.setAlerte("Alerte");
+		a.setEmail(false);
+		a.setSeuil(2);
+		a.setTriggered(false);
+		a.setActive(false);
+		
+		//Test API
+		mockMvc.perform(post("/createAlert")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(a)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.alerte").value("Alerte"))
+				.andExpect(jsonPath("$.email").value(false))
+				.andExpect(jsonPath("$.triggered").value(false))
+				.andExpect(jsonPath("$.active").value(false))
+				.andExpect(jsonPath("$.seuil").value(2));
 	}
 	
 	private String asJsonString(Object obj) throws Exception {
