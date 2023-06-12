@@ -89,7 +89,7 @@ public class AlertRest {
 		GregorianCalendar calendar = new GregorianCalendar();
 		Iterable<Alert> listAlert = alertRepo.findAll();
 		for(Alert a : listAlert) {
-			//Vérifie que l'alerte est "active
+			//Vérifie que l'alerte est active
 			if(a.isActive()) {
 				if(!a.getProducts().isEmpty()) {
 					for(TypeProduct t : a.getProducts()) {
