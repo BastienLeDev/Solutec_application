@@ -1,13 +1,13 @@
 package fr.solutec.rest;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.sql.Date;
 
+import fr.solutec.entities.TypeProduct;
+import fr.solutec.repository.TypeProductRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,8 @@ public class alertRestTest {
 	private MockMvc mockMvc;
 	@Autowired
 	private AlertRepository alertRepo;
+	@Autowired
+	private TypeProductRepository typeProductRepo;
 	
 	@Test
 	@WithMockUser(username = "UserTest", roles = "ADMIN")
@@ -87,6 +89,87 @@ public class alertRestTest {
 				.andExpect(jsonPath("$.triggered").value(false))
 				.andExpect(jsonPath("$.active").value(false))
 				.andExpect(jsonPath("$.seuil").value(2));
+	}
+
+	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
+	public void deleteAlertTest() throws Exception{
+		// Alerte fictive à supprimer
+		Alert a = new Alert();
+		a.setAlerte("Alerte");
+		a.setEmail(false);
+		a.setSeuil(2);
+		a.setTriggered(false);
+		a.setActive(false);
+		alertRepo.save(a);
+
+		//Test API
+		mockMvc.perform(delete("/deleteAlert/{idAlert}", a.getIdAlert()))
+				.andExpect(status().isOk())
+				.andExpect(content().string("true"));
+	}
+
+	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
+	public void deleteTypeProductTest() throws Exception{
+		//Type de produit fictif
+		TypeProduct t = new TypeProduct();
+		t.setNameProduct("TypeTest1");
+		typeProductRepo.save(t);
+
+		//Alerte fictive
+		Alert a3 = new Alert();
+		a3.setAlerte("Alerte");
+		a3.setEmail(false);
+		a3.setSeuil(2);
+		a3.setTriggered(false);
+		a3.setActive(false);
+		a3.getProducts().add(t);
+		alertRepo.save(a3);
+
+		//Appel de l'API
+		mockMvc.perform(patch("/deleteTypeProduct/"+ t.getNameProduct() +"/" + a3.getIdAlert()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.alerte").value("Alerte"))
+				.andExpect(jsonPath("$.seuil").value(2))
+				.andExpect(jsonPath("$.email").value(false))
+				.andExpect(jsonPath("$.active").value(false))
+				.andExpect(jsonPath("$.triggered").value(false))
+				.andExpect(jsonPath("$.products").isEmpty());
+	}
+
+	@Test
+	@WithMockUser(username = "UserTest", roles = "ADMIN")
+	public void deleteTypeProductTest2() throws Exception{
+		//Types de produits fictifs
+		TypeProduct t2 = new TypeProduct();
+		t2.setNameProduct("TypeTest2");
+		typeProductRepo.save(t2);
+
+		TypeProduct t3 = new TypeProduct();
+		t3.setNameProduct("TypeTest3");
+		typeProductRepo.save(t3);
+
+		//Alerte fictive avec deux types de produit
+		Alert a4 = new Alert();
+		a4.setAlerte("Alerte");
+		a4.setEmail(false);
+		a4.setSeuil(2);
+		a4.setTriggered(false);
+		a4.setActive(false);
+		a4.getProducts().add(t2);
+		a4.getProducts().add(t3);
+		alertRepo.save(a4);
+
+		//Appel de l'API
+		mockMvc.perform(patch("/deleteTypeProduct/"+ t2.getNameProduct() +"/" + a4.getIdAlert()))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.alerte").value("Alerte"))
+				.andExpect(jsonPath("$.seuil").value(2))
+				.andExpect(jsonPath("$.email").value(false))
+				.andExpect(jsonPath("$.active").value(false))
+				.andExpect(jsonPath("$.triggered").value(false))
+				.andExpect(jsonPath("$.products").isNotEmpty());
 	}
 	
 	private String asJsonString(Object obj) throws Exception {
