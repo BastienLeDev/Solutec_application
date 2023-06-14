@@ -64,11 +64,11 @@ public class SecurityConfig {
 		                .permitAll()
 		            )*/
 	            .authorizeHttpRequests((requests) -> requests
-	            	
-	            	.requestMatchers("/registration").permitAll()
-	            	.requestMatchers("/authenticate").permitAll()
-	            	.requestMatchers("/*").hasAuthority("ROLE_ADMIN")
-	            	.anyRequest().authenticated()
+						.requestMatchers("/user/registration/*").permitAll()
+	            		.requestMatchers("/registration").permitAll()
+	            		.requestMatchers("/authenticate").permitAll()
+	            		.requestMatchers("/*").hasAuthority("ROLE_ADMIN")
+	            		.anyRequest().authenticated()
 	            )
 	            .sessionManagement((session) -> session 
 	            		.sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Pour créer une session avec une authentification par Token

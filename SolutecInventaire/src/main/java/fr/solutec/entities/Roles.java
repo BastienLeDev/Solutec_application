@@ -14,6 +14,4 @@ public class Roles {
 	@Id @GeneratedValue
 	private Long idRole;
 	private String roleName;
-	
-
 }

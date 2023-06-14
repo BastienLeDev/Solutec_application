@@ -132,8 +132,8 @@ public class SolutecInventaireApplication implements CommandLineRunner {
 		col1.add(r2);
 		col2.add(r2);
 		
-		User u1 = new User(null, "User1", "testUser", "Rm1", passwordEncoder.encode("123"),col1);
-		User u2 = new User(null, "User2", "testUser2", "Rm2", passwordEncoder.encode("456"),col2);
+		User u1 = new User(null, "Rm1", passwordEncoder.encode("123"),col1);
+		User u2 = new User(null, "Rm2", passwordEncoder.encode("456"),col2);
 		
 		productRepo.save(p1);
 		productRepo.save(p2);
