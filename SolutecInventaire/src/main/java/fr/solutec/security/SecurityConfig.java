@@ -57,8 +57,8 @@ public class SecurityConfig {
 	  @Bean
 	  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	        http
-	             .cors().configurationSource(configurationSource()).and()
-	             .csrf().disable()
+	             .cors((cors) -> cors.configurationSource(configurationSource()))
+	             .csrf((csrf) -> csrf.disable())
 	        	/*.cors().disable()*/ //Pour paramétrer le crossOrigin
 	        	/*.formLogin((form) -> form
 		                .permitAll()
