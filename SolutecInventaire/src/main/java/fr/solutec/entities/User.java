@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 public class User {
 	@Id @GeneratedValue
 	private Long idUser;
-	private String lastname;
-	private String firstname;
 	@Column(unique = true)
 	@Nonnull
 	private String login;

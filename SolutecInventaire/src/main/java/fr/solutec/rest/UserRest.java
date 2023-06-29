@@ -2,14 +2,12 @@ package fr.solutec.rest;
 
 import java.util.Optional;
 
+import fr.solutec.entities.Roles;
+import fr.solutec.repository.RolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import fr.solutec.entities.User;
 import fr.solutec.repository.UserRepository;
@@ -20,6 +18,9 @@ public class UserRest {
 	
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private RolesRepository rolesRepo;
 	
 	@PostMapping("user")
 	public Optional<User> postByLoginAndPassword(@RequestBody User u) {
@@ -28,19 +29,19 @@ public class UserRest {
 	
 	 @Autowired
 	  private PasswordEncoder passwordEncoder;
-
-	  @Autowired
-	  private UserRepository userRepository;
-	  
 	  
 	  /**
 		 * Ajoute un utilisateur dans la BDD.
 		 * @param Un objet de type User.
 		 * @return L'utilisateur créé et enregistré dans la BDD.
 		 */
-	  @PostMapping("user/registration") //API pour créer un utilisateur
-	  public User Creation(@RequestBody User u){
-		  u.setPassword(passwordEncoder.encode(u.getPassword()));
-		  return userRepository.save(u);
+	  @PostMapping("user/registration/{roleName}") //API pour créer un utilisateur avec un rôle
+	  public User Creation(@RequestBody User user, @PathVariable String roleName){
+		  User u = new User();
+		  Roles r = rolesRepo.findByRoleName(roleName);
+		  u.setLogin(user.getLogin());
+		  u.getRoles().add(r);
+		  u.setPassword(passwordEncoder.encode(user.getPassword()));
+		  return userRepo.save(u);
 	  }
 }

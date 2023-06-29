@@ -42,14 +42,14 @@ public class MailServices {
 	Session session = Session.getInstance(props,
 			  new Authenticator() {
 			    protected PasswordAuthentication getPasswordAuthentication() {
-			        return new PasswordAuthentication("bgauthiero@consultants-solutec.fr", "mdp");
+			        return new PasswordAuthentication("email", "motDePasse");
 			    }
 			  });
 	
 	Message message = new MimeMessage(session);
-	message.setFrom(new InternetAddress("bgauthiero@consultants-solutec.fr"));
-	message.setRecipients(Message.RecipientType.CC,
-	        InternetAddress.parse("bgauthiero@consultants-solutec.fr,ldodet@consultants-solutec.fr"));
+	message.setFrom(new InternetAddress("emailDeLenvoyeur"));
+	message.setRecipients(Message.RecipientType.TO,
+	        InternetAddress.parse("emailDuReceveur"));
 	message.setSubject("Déclenchement de '" + subject + "'" );
 	message.setText("L'alerte : '"+ subject + "' a été déclenchée le "+ dt.format(date) +". \n\nLe matériel avec un stock critique est visible sur la page d'accueil de l'application. \n \n \nMail généré automatiquement.");
 	Transport.send(message);
